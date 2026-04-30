@@ -356,6 +356,15 @@
     padding-bottom: 0.5rem;
   }
 
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+  }
+
   @media (max-width: 500px) {
     .sticker { display: none; }
     .nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
@@ -420,97 +429,57 @@ const pages = [
   {
     label: "page 1",
     image: null,
-    caption: "just another late night..."
+    caption: "wait."
   },
   {
     label: "page 2",
     image: null,
-    caption: "wait."
+    caption: "I'll just say hi real quick... ...this is 400 words"
   },
   {
     label: "page 3",
     image: null,
-    caption: "I'll just say hi real quick... ...this is 400 words"
+    caption: "loneliness isn't just being alone. it's wanting to be known."
   },
   {
     label: "page 4",
     image: null,
-    caption: "FELLOW YAPPER SPOTTED"
+    caption: "alr sent a friend request :p"
   },
   {
     label: "page 5",
     image: null,
-    caption: "okay. let's cook."
+    caption: "...noted. 🩷"
   },
   {
     label: "page 6",
     image: null,
-    caption: "new year, new layout. i think i cooked."
+    caption: "april 30th. got it."
   },
   {
     label: "page 7",
     image: null,
-    caption: "two sides of the same screen"
+    caption: "I already knew. I just liked hearing her talk."
   },
   {
     label: "page 8",
     image: null,
-    caption: "loneliness isn't just being alone. it's wanting to be known."
+    caption: "she hates texting. she kept texting."
   },
   {
     label: "page 9",
     image: null,
-    caption: "alr sent a friend request :p"
+    caption: "we stopped keeping track of the time."
   },
   {
     label: "page 10",
     image: null,
-    caption: "...noted. 🩷"
+    caption: "sorry. can we go back to being silly and dumb?"
   },
   {
     label: "page 11",
     image: null,
-    caption: "april 30th. got it."
-  },
-  {
-    label: "page 12",
-    image: null,
-    caption: "I already knew. I just liked hearing her talk."
-  },
-  {
-    label: "page 13",
-    image: null,
-    caption: "turns out she was in Germany the whole time. (I already knew.)"
-  },
-  {
-    label: "page 14",
-    image: null,
-    caption: "she hates texting. she kept texting."
-  },
-  {
-    label: "page 15",
-    image: null,
-    caption: "we stopped keeping track of the time."
-  },
-  {
-    label: "page 16",
-    image: null,
-    caption: "sorry. can we go back to being silly and dumb?"
-  },
-  {
-    label: "page 17",
-    image: null,
-    caption: "strangers don't stay strangers forever."
-  },
-  {
-    label: "page 18",
-    image: null,
     caption: "she was nervous. I was nervous. neither of us said anything."
-  },
-  {
-    label: "page 19",
-    image: null,
-    caption: "staying present. staying intentional."
   },
   {
     label: "finale",
@@ -585,6 +554,8 @@ function render(anim) {
   prevBtn.disabled = current === 0;
   nextBtn.disabled = current === pages.length - 1;
 
+  if (current === pages.length - 1) setTimeout(spawnConfetti, 300);
+
   buildDots();
 }
 
@@ -599,6 +570,91 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') changePage(1);
   if (e.key === 'ArrowLeft') changePage(-1);
 });
+
+// ── confetti ──
+const canvas = document.createElement('canvas');
+canvas.id = 'confetti-canvas';
+document.body.appendChild(canvas);
+const ctx = canvas.getContext('2d');
+let particles = [];
+let animId = null;
+
+const COLORS = ['#f472b6','#fb7185','#fbbf24','#a78bfa','#34d399','#60a5fa','#f9a8d4','#fde68a'];
+const SHAPES = ['circle','square','heart'];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function spawnConfetti() {
+  particles = [];
+  for (let i = 0; i < 160; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: -10 - Math.random() * 200,
+      size: 6 + Math.random() * 8,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      shape: SHAPES[Math.floor(Math.random() * SHAPES.length)],
+      vx: (Math.random() - 0.5) * 3,
+      vy: 2 + Math.random() * 4,
+      rot: Math.random() * Math.PI * 2,
+      rotV: (Math.random() - 0.5) * 0.15,
+      alpha: 1,
+      life: 180 + Math.floor(Math.random() * 80)
+    });
+  }
+  if (animId) cancelAnimationFrame(animId);
+  animateConfetti();
+}
+
+function drawHeart(cx, cy, size, rot) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rot);
+  ctx.beginPath();
+  const s = size * 0.5;
+  ctx.moveTo(0, s * 0.6);
+  ctx.bezierCurveTo(-s, -s * 0.2, -s * 1.6, s * 0.8, 0, s * 1.6);
+  ctx.bezierCurveTo(s * 1.6, s * 0.8, s, -s * 0.2, 0, s * 0.6);
+  ctx.fill();
+  ctx.restore();
+}
+
+function animateConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let alive = false;
+  for (const p of particles) {
+    if (p.life <= 0) continue;
+    alive = true;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.rotV;
+    p.vy += 0.04;
+    p.life--;
+    p.alpha = Math.min(1, p.life / 40);
+    ctx.globalAlpha = p.alpha;
+    ctx.fillStyle = p.color;
+    if (p.shape === 'circle') {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+      ctx.fill();
+    } else if (p.shape === 'square') {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+    } else {
+      drawHeart(p.x, p.y, p.size, p.rot);
+    }
+  }
+  ctx.globalAlpha = 1;
+  if (alive) animId = requestAnimationFrame(animateConfetti);
+  else ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 
 render();
 </script>
