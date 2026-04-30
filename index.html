@@ -365,6 +365,27 @@
     z-index: 999;
   }
 
+  .music-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    background: white;
+    border: 2.5px solid var(--pink);
+    color: var(--pink-dark);
+    font-size: 1.2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--pink-mid);
+    transition: transform 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .music-btn:hover { transform: scale(1.08); }
+
   @media (max-width: 500px) {
     .sticker { display: none; }
     .nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
@@ -373,6 +394,11 @@
 </style>
 </head>
 <body>
+
+<audio id="bgMusic" loop>
+  <source src="assets/song.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
 
 <!-- decorative stickers -->
 <div class="sticker s1">🌸</div>
@@ -657,6 +683,24 @@ function animateConfetti() {
 }
 
 render();
+
+// ── music ──
+const music = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+
+function toggleMusic() {
+  if (music.paused) {
+    music.play();
+    musicBtn.textContent = '🎵';
+  } else {
+    music.pause();
+    musicBtn.textContent = '🔇';
+  }
+}
+
+document.addEventListener('click', () => {
+  if (music.paused) music.play();
+}, { once: true });
 </script>
 </body>
 </html>
