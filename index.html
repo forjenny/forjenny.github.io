@@ -386,6 +386,42 @@
   }
   .music-btn:hover { transform: scale(1.08); }
 
+  .music-hint {
+    position: fixed;
+    bottom: 30px;
+    right: 74px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+    animation: hintBounce 1.2s ease-in-out infinite;
+  }
+
+  .music-hint span {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--pink-dark);
+    white-space: nowrap;
+    background: white;
+    border: 2px solid var(--pink-mid);
+    border-radius: 20px;
+    padding: 3px 10px;
+    box-shadow: 2px 2px 0 var(--pink-mid);
+  }
+
+  .music-hint::after {
+    content: '➜';
+    font-size: 1rem;
+    color: var(--pink);
+  }
+
+  @keyframes hintBounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+  }
+
   @media (max-width: 500px) {
     .sticker { display: none; }
     .nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
@@ -398,6 +434,7 @@
 <audio id="bgMusic" loop>
   <source src="assets/song.mp3" type="audio/mpeg">
 </audio>
+<div class="music-hint" id="musicHint"><span>click me!</span></div>
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
 
 <!-- decorative stickers -->
@@ -700,6 +737,7 @@ function toggleMusic() {
 
 document.addEventListener('click', () => {
   if (music.paused) music.play();
+  document.getElementById('musicHint').style.display = 'none';
 }, { once: true });
 </script>
 </body>
