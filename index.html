@@ -432,7 +432,7 @@
 <body>
 
 <audio id="bgMusic" loop>
-  <source src="assets/wifty.mp3" type="audio/mpeg">
+  <source src="assets/song.mp3" type="audio/mpeg">
 </audio>
 <div class="music-hint" id="musicHint"><span>click me!</span></div>
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
@@ -626,6 +626,8 @@ function changePage(dir) {
   const next = current + dir;
   if (next < 0 || next >= pages.length) return;
   current = next;
+  popSfx.currentTime = 0;
+  popSfx.play();
   render(dir < 0 ? 'back' : '');
 }
 
@@ -724,6 +726,7 @@ render();
 // ── music ──
 const music = document.getElementById('bgMusic');
 const musicBtn = document.getElementById('musicBtn');
+const popSfx = new Audio('assets/pop.mp3');
 
 function toggleMusic() {
   if (music.paused) {
