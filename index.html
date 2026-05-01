@@ -18,6 +18,11 @@
     --text: #4a1942;
     --text-soft: #9d4a7c;
     --shadow: rgba(244, 114, 182, 0.25);
+    /* chat panel */
+    --chat-bg: #fff0f7;
+    --chat-bubble: #f472b6;
+    --chat-meta: #9d4a7c;
+    --chat-border: #fbcfe8;
   }
 
   html, body {
@@ -422,6 +427,276 @@
     50% { transform: translateX(4px); }
   }
 
+  /* ── chat panel ── */
+  .chat-panel {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    background: var(--chat-bg);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 24px rgba(244,114,182,0.15);
+    border-right: 1.5px solid var(--chat-border);
+  }
+
+  .chat-panel-header {
+    padding: 20px 16px 14px;
+    border-bottom: 1.5px solid var(--chat-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    background: white;
+  }
+
+  .chat-panel-header-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--chat-bubble);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .chat-panel-header-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .chat-panel-header-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-panel-header-name {
+    color: var(--pink-dark);
+    font-size: 0.88rem;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+    letter-spacing: 0.2px;
+  }
+
+  .chat-panel-header-status {
+    color: #4ade80;
+    font-size: 0.68rem;
+    font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .chat-panel-header-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    flex-shrink: 0;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    scroll-behavior: smooth;
+  }
+
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--chat-border); border-radius: 4px; }
+
+  .chat-msg {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    margin-bottom: 12px;
+  }
+
+  .chat-msg.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .chat-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--chat-bubble);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    overflow: hidden;
+    margin-top: 16px;
+  }
+
+  .chat-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .chat-msg-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: calc(100% - 44px);
+  }
+
+  .chat-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .chat-name {
+    color: var(--pink-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .chat-time {
+    color: var(--chat-meta);
+    font-size: 0.65rem;
+    font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .chat-bubble {
+    background: var(--chat-bubble);
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.5;
+    padding: 9px 13px;
+    border-radius: 4px 16px 16px 16px;
+    word-break: break-word;
+  }
+
+  .chat-next-btn {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 40px;
+    margin-top: 2px;
+    margin-bottom: 4px;
+  }
+
+  .chat-next-btn button {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--pink);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: white;
+    box-shadow: 0 2px 8px rgba(244,114,182,0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+    animation: nudge 1.2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .chat-next-btn button:hover {
+    transform: scale(1.12);
+    box-shadow: 0 4px 12px rgba(244,114,182,0.5);
+  }
+
+  @keyframes nudge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+  }
+
+  /* collapse toggle button */
+  .chat-toggle {
+    position: fixed;
+    left: 300px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 51;
+    width: 22px;
+    height: 48px;
+    background: white;
+    border: 1.5px solid var(--chat-border);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pink);
+    font-size: 0.7rem;
+    transition: left 0.3s ease, background 0.2s;
+  }
+
+  .chat-toggle:hover { background: var(--pink-light); color: var(--pink-dark); }
+
+  /* collapsed state */
+  .chat-panel.collapsed {
+    transform: translateX(-300px);
+  }
+
+  .chat-panel {
+    transition: transform 0.3s ease;
+  }
+
+  .chat-toggle.collapsed {
+    left: 0;
+  }
+
+  /* push main content right on desktop */
+  .main-content {
+    margin-left: 300px;
+    transition: margin-left 0.3s ease;
+  }
+
+  .main-content.expanded {
+    margin-left: 0;
+  }
+
+  @media (max-width: 900px) {
+    .chat-panel {
+      width: 260px;
+    }
+    .chat-toggle { left: 260px; }
+    .chat-toggle.collapsed { left: 0; }
+    .main-content { margin-left: 260px; }
+  }
+
+  @media (max-width: 600px) {
+    .chat-panel {
+      width: 100vw;
+      transform: translateX(-100vw);
+    }
+    .chat-panel.collapsed { transform: translateX(-100vw); }
+    .chat-panel.open { transform: translateX(0); }
+    .chat-toggle { left: 0; top: 16px; transform: none; border-radius: 0 8px 8px 0; }
+    .chat-toggle.open { left: calc(100vw - 22px); border-radius: 8px 0 0 8px; }
+    .main-content { margin-left: 0; }
+  }
+
   @media (max-width: 500px) {
     .sticker { display: none; }
     .nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
@@ -436,6 +711,24 @@
 </audio>
 <div class="music-hint" id="musicHint"><span>click me!</span></div>
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+
+<!-- ── chat panel ── -->
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-panel-header">
+    <div class="chat-panel-header-avatar">
+      <img src="assets/pic.png" alt="Photon">
+    </div>
+    <div class="chat-panel-header-info">
+      <div class="chat-panel-header-name">Photon</div>
+      <div class="chat-panel-header-status">online</div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+</div>
+<button class="chat-toggle" id="chatToggle" onclick="toggleChat()" title="toggle chat">‹</button>
+
+<!-- ── main content ── -->
+<div class="main-content" id="mainContent">
 
 <!-- decorative stickers -->
 <div class="sticker s1">🌸</div>
@@ -480,6 +773,8 @@
 <div class="dots-row" id="dotsRow"></div>
 <div class="counter" id="counter">cover · 21 pages</div>
 <div class="key-hint">use ← → arrow keys to flip pages</div>
+
+</div><!-- end .main-content -->
 
 <script>
 const pages = [
@@ -742,6 +1037,76 @@ document.addEventListener('click', () => {
   if (music.paused) music.play();
   document.getElementById('musicHint').style.display = 'none';
 }, { once: true });
+
+// ── chat panel ──
+const chatMessages = [
+  { name: "Photon", time: "Oct 13, 2025", text: "Hey! Just wanted to drop by and say hi after replying to one of your posts! I ended up reading your bio and couldn't help but relate to a lot of what you mentioned." },
+  { name: "Photon", time: "Oct 13, 2025", text: "I used to watch anime really casually too as a kid, stuff like Beyblade and Bakugan on TV, but my real experience started when my sister introduced me to Fairy Tail. That kicked off my shonen phase 😭" },
+  { name: "Photon", time: "Oct 13, 2025", text: "My first romance was also Masamune-kun, and I still remember humming Mirror Heart on my way to school. After that, I fell deep into romcoms, love triangles, and the occasional degen show lol" },
+  { name: "Photon", time: "Dec 4, 2025", text: "i've been thinking ab how weirdly isolating society can feel. i've only got maybe 2-3 real homies, the kind of ppl who'd actually listen if i opened up. ig i'm learning that loneliness isn't js ab being alone, it's ab wanting deeper connections." },
+  { name: "Photon", time: "Dec 9, 2025", text: "MORNINGG yes i am very much an american LOL (ggs our politics are so fucked rn)" },
+  { name: "Photon", time: "Dec 9, 2025", text: "dope, nice to meet ya as well name's tom" },
+  { name: "Photon", time: "Dec 11, 2025", text: "kk talk to ya later" },
+  { name: "Photon", time: "Dec 11, 2025", text: "shoree but maybe not in the early mornings LMAO" },
+  { name: "Photon", time: "Feb 2026", text: "i first experimented w dual colors (blue + pink), but it was not it lowk and it didnt give romcom vibes at all. BUT THIS ONE CHAT, THIS ONE, I COOKED 🔥" },
+  { name: "Photon", time: "Feb 2026", text: "sure, i'll keep it pink until april 30th 🩷 why not" },
+  { name: "Photon", time: "Apr 30, 2026", text: "still pink. kept my promise. happy birthday jenny 🎂" },
+];
+
+let chatIndex = 0;
+const chatContainer = document.getElementById('chatMessages');
+
+function renderNextMessage() {
+  if (chatIndex >= chatMessages.length) return;
+
+  // remove previous next button
+  const oldBtn = chatContainer.querySelector('.chat-next-btn');
+  if (oldBtn) oldBtn.remove();
+
+  const msg = chatMessages[chatIndex];
+
+  const msgEl = document.createElement('div');
+  msgEl.className = 'chat-msg';
+  msgEl.innerHTML = `
+    <div class="chat-avatar"><img src="assets/pic.png" alt="Photon"></div>
+    <div class="chat-msg-body">
+      <div class="chat-meta">
+        <span class="chat-name">${msg.name}</span>
+        <span class="chat-time">${msg.time}</span>
+      </div>
+      <div class="chat-bubble">${msg.text}</div>
+    </div>
+  `;
+  chatContainer.appendChild(msgEl);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => { msgEl.classList.add('visible'); });
+  });
+
+  chatIndex++;
+
+  if (chatIndex < chatMessages.length) {
+    const btnWrap = document.createElement('div');
+    btnWrap.className = 'chat-next-btn';
+    btnWrap.innerHTML = `<button onclick="renderNextMessage()" title="next message">↓</button>`;
+    chatContainer.appendChild(btnWrap);
+  }
+
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function toggleChat() {
+  const panel = document.getElementById('chatPanel');
+  const toggle = document.getElementById('chatToggle');
+  const main = document.getElementById('mainContent');
+  const isCollapsed = panel.classList.toggle('collapsed');
+  toggle.textContent = isCollapsed ? '›' : '‹';
+  toggle.classList.toggle('collapsed', isCollapsed);
+  main.classList.toggle('expanded', isCollapsed);
+}
+
+// init first message
+renderNextMessage();
 </script>
 </body>
 </html>
