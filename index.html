@@ -740,7 +740,7 @@
 
 <header>
   <h1>how we got here</h1>
-  <p>a little story, just for you</p>
+  <p>a little story, js for you</p>
   <div class="hearts-row">🩷 🩷 🩷</div>
 </header>
 
@@ -781,67 +781,67 @@ const pages = [
   {
     label: "cover",
     image: "assets/cover.png",
-    caption: "how we got here",
+    caption: "this is the story of how i met jenny. it started w a late night scroll and a bio that stopped me in my tracks type shit",
     isSpecial: true
   },
   {
     label: "page 1",
-    image: null,
-    caption: "wait."
+    image: "assets/pg1.png",
+    caption: "i was updating my lists and scrollin anilist one night when her profile js caught my eye. smtn ab her bio resonated so deeply that i couldn't js stop readin"
   },
   {
     label: "page 2",
-    image: null,
-    caption: "I'll just say hi real quick... ...this is 400 words"
+    image: "assets/pg2.png",
+    caption: "so naturally, i did what any normal person would do and sent her a 400 word msg ab my entire anime history. i told myself it was js a quick hello LMAO"
   },
   {
     label: "page 3",
-    image: null,
-    caption: "loneliness isn't just being alone. it's wanting to be known."
+    image: "assets/pg3.png",
+    caption: "months later, i wrote one of the most honest things i'd ever posted. ab loneliness, ab wanting to be truly known - not js seen."
   },
   {
     label: "page 4",
-    image: null,
-    caption: "alr sent a friend request :p"
+    image: "assets/pg4.png",
+    caption: "she replied n told me i put into words exactly what she'd been feelin for months. then i sent her a friend request :p"
   },
   {
     label: "page 5",
-    image: null,
-    caption: "...noted. 🩷"
+    image: "assets/pg5.png",
+    caption: "on dec 9, she sent me her very first msg to me. 'good morning :D' she hadn't opened discord since the pandemic n popped up to say hi to silly ol' me"
   },
   {
     label: "page 6",
-    image: null,
-    caption: "april 30th. got it."
+    image: "assets/pg6.png",
+    caption: "from that day on, we js went back n forth, bantering n talkin about the most random shit ever, sharing our lived experiences from across the world"
   },
   {
     label: "page 7",
-    image: null,
-    caption: "I already knew. I just liked hearing her talk."
+    image: "assets/pg7.png",
+    caption: "then before u know it, we was callin. 2 hrs turned into 5. then 7. and one night we even went for 10 to break a record XD"
   },
   {
     label: "page 8",
-    image: null,
-    caption: "she hates texting. she kept texting."
+    image: "assets/pg8.png",
+    caption: "over time, i got to know her better. her friends (the council), her sister and her BL wall, to living vicariously thru her trips in munich and china"
   },
   {
     label: "page 9",
-    image: null,
-    caption: "we stopped keeping track of the time."
+    image: "assets/pg9.png",
+    caption: "in feb, i switched my layout to pink n she told me she rly liked it, so i kept it. she asked if i could leave it until her bday on apr 30, i said sure y not. and i meant it!"
   },
   {
     label: "page 10",
-    image: null,
-    caption: "sorry. can we go back to being silly and dumb?"
+    image: "assets/pg10.png",
+    caption: "we had our small lil fights here n there. but whenever we did, we always found our vibe back. like i said, ich will einfach nur, dass wir beim nächsten wieder albern und dumm sein können."
   },
   {
     label: "page 11",
-    image: null,
-    caption: "she was nervous. I was nervous. neither of us said anything."
+    image: "assets/pg11.png",
+    caption: "eventually, we exchange igs and send each other reels ab mbtis and memes! she then floated the idea of a video call bc she wanted to show me a leather jacket. we both knew it wasn't rly ab the jacket. we were both nervous. js staring XD but it went well and we had a great time showing each other our rooms n stuff"
   },
   {
     label: "finale",
-    image: null,
+    image: "assets/finale.png",
     caption: "I don't say it enough, but having you in my life genuinely means so much to me. You've made things brighter just by being you, and I'm really grateful our paths crossed.\n\nHappy birthday, Jenny. 🎂\n— your american social experiment",
     isSpecial: true
   }
@@ -1020,6 +1020,7 @@ render();
 
 // ── music ──
 const music = document.getElementById('bgMusic');
+music.volume = 0.3;
 const musicBtn = document.getElementById('musicBtn');
 const popSfx = new Audio('assets/pop.mp3');
 
