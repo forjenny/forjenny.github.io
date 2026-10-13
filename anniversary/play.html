@@ -6,6 +6,15 @@
   <meta name="description" content="AniList-style activity feed and progress panels for Reeze." />
   <title>Home &middot; AniList</title>
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+  <script>
+    /* Refreshing the shell replays the story; navigating inside the framed
+       site (same session) does not. Runs before the iframe loads. */
+    try {
+      var navEntries = performance.getEntriesByType('navigation');
+      var navType = navEntries && navEntries.length ? navEntries[0].type : 'navigate';
+      if (navType === 'reload') sessionStorage.removeItem('narrativePlayed');
+    } catch (e) {}
+  </script>
   <style>
     html,
     body {
