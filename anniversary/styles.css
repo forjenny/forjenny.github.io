@@ -542,6 +542,7 @@ body {
 /* the number always matches its button's colour */
 .activity-entry .action .count {
   font-size: 1.2rem;
+  font-weight: 900;
   color: inherit;
 }
 

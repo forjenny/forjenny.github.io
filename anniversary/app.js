@@ -65,6 +65,13 @@
       .replace(/'/g, '&#39;');
   }
 
+  /* Render a count span, or nothing when the count is zero. */
+  function countSpan(value) {
+    var count = Number(value) || 0;
+    if (count <= 0) return '';
+    return '<span class="count">' + escapeHtml(count) + '</span>';
+  }
+
   /* Build one .activity-entry card. */
   function buildPost(post) {
     return (
@@ -104,17 +111,13 @@
       '</div>' +
       '<div class="actions">' +
       '<button class="action replies" type="button">' +
-      '<span class="count">' +
-      escapeHtml(post.comments) +
-      '</span>' +
+      countSpan(post.comments) +
       ICONS.replies +
       '</button>' +
       '<button class="action likes' +
       (post.liked ? ' liked' : '') +
       '" type="button">' +
-      '<span class="count">' +
-      escapeHtml(post.likes) +
-      '</span>' +
+      countSpan(post.likes) +
       ICONS.heart +
       '</button>' +
       '</div>' +
@@ -411,9 +414,8 @@
         avatarUrl: PHOTON_AVATAR,
         text: REPLY_TEXT,
         timestamp: 'just now',
-        likes: 1,
+        likes: 0,
         comments: 0,
-        liked: true,
       });
       replyCard.classList.add('tween-in', 'threaded-reply');
 
@@ -450,6 +452,17 @@
         replyButton.classList.remove('glow-reply');
         replyButton.setAttribute('title', 'Toggle replies');
         replyButton.setAttribute('aria-label', 'Toggle replies');
+
+        /* this post gained a reply — bump its reply count by one */
+        var replyCount = replyButton.querySelector('.count');
+        if (replyCount) {
+          replyCount.textContent = (parseInt(replyCount.textContent, 10) || 0) + 1;
+        } else {
+          replyCount = document.createElement('span');
+          replyCount.className = 'count';
+          replyCount.textContent = '1';
+          replyButton.insertBefore(replyCount, replyButton.firstChild);
+        }
       }
     }
 
@@ -754,9 +767,18 @@
       var liked = button.classList.toggle('liked');
 
       var countEl = button.querySelector('.count');
-      if (countEl) {
-        var current = parseInt(countEl.textContent, 10) || 0;
-        countEl.textContent = liked ? current + 1 : Math.max(0, current - 1);
+      var current = countEl ? parseInt(countEl.textContent, 10) || 0 : 0;
+      var next = liked ? current + 1 : Math.max(0, current - 1);
+
+      if (next > 0) {
+        if (!countEl) {
+          countEl = document.createElement('span');
+          countEl.className = 'count';
+          button.insertBefore(countEl, button.firstChild);
+        }
+        countEl.textContent = next;
+      } else if (countEl) {
+        countEl.parentNode.removeChild(countEl);
       }
     });
   }
