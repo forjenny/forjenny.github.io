@@ -702,9 +702,55 @@
     .nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
     .book { margin: 0 0.5rem; }
   }
+
+  /* ── "for you" button → anniversary site ── */
+  .for-you-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--pink-dark);
+    background: white;
+    border: 2.5px solid var(--pink);
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 3px 3px 0 var(--pink-mid);
+    transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+    cursor: pointer;
+  }
+
+  .for-you-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 4px 4px 0 var(--pink);
+    background: var(--pink-light);
+  }
+
+  .for-you-btn:active {
+    transform: scale(0.97);
+    box-shadow: 1px 1px 0 var(--pink);
+  }
+
+  @media (max-width: 500px) {
+    .for-you-btn {
+      top: 10px;
+      right: 10px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+    }
+  }
 </style>
 </head>
 <body>
+
+<a class="for-you-btn" href="anniversary/index.html">for you</a>
 
 <audio id="bgMusic" loop>
   <source src="assets/song.mp3" type="audio/mpeg">
