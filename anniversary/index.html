@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home &middot; AniList</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="site-theme-dark">
+  <nav class="nav">
+    <a class="logo" href="#" aria-label="Home">
+      <img src="../assets/icon.svg" alt="AniList" />
+    </a>
+
+    <div class="links">
+      <a class="link" href="#">Home</a>
+      <a class="link" href="#">Profile</a>
+      <a class="link" href="#">Anime List</a>
+      <a class="link" href="#">Manga List</a>
+      <a class="link" href="#">Browse</a>
+      <a class="link" href="#">Forum</a>
+    </div>
+
+    <div class="user">
+      <button class="search" type="button" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </button>
+
+      <div class="avatar nav-avatar" role="img" aria-label="Photon"></div>
+    </div>
+  </nav>
+
+  <main class="home">
+    <section class="home-center">
+      <div class="activity-feed">
+        <div class="section-header">
+          <h2 class="section-title">Activity</h2>
+
+          <div class="feed-type-toggle">
+            <div class="toggle-option">Following</div>
+            <div class="toggle-option is-active">Global</div>
+          </div>
+        </div>
+
+        <div class="activity-edit el-textarea">
+          <textarea class="el-textarea__inner" rows="1"
+                    placeholder="Write a status..."></textarea>
+        </div>
+      </div>
+
+      <div class="reply">
+        <div class="photon-avatar" hidden></div>
+
+        <div class="el-textarea">
+          <textarea class="el-textarea__inner" rows="1"
+                    placeholder="Write a reply..."></textarea>
+        </div>
+
+        <button class="reply-post" type="button" hidden>Post</button>
+      </div>
+    </section>
+
+    <aside class="home-right">
+      <div class="announcement-banner">
+        <div class="announcement-logo" aria-hidden="true"></div>
+
+        <div class="announcement-body">
+          <h3 class="announcement-title">Site-wide performance issues</h3>
+          <p class="announcement-text">
+            We're currently struggling with performance issues caused by an
+            extreme increase in public API traffic. See the linked announcement
+            for more details.
+          </p>
+        </div>
+
+        <button class="announcement-close" type="button"
+                aria-label="Dismiss announcement">X</button>
+      </div>
+
+      <section>
+        <h3 class="list-preview-header">Anime in Progress</h3>
+        <div class="list-preview"></div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
