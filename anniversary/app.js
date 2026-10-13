@@ -1007,7 +1007,40 @@
     });
   }
 
+  /* ------------------------------------------------------------------ */
+  /* Background music                                                    */
+  /* ------------------------------------------------------------------ */
+
+  /* Plays ss.mp3 (looped, 35%) only when arriving from the flipbook's
+     "for you" button, i.e. anniversary/index.html?music=ss */
+  function initMusic() {
+    if (window.location.search.indexOf('music=ss') === -1) return;
+
+    var audio = new Audio('../assets/ss.mp3');
+    audio.loop = true;
+    audio.volume = 0.35;
+    window.__bgMusic = audio;
+
+    function resume() {
+      audio.play().catch(function () {});
+      document.removeEventListener('pointerdown', resume);
+      document.removeEventListener('keydown', resume);
+      document.removeEventListener('touchstart', resume);
+    }
+
+    var promise = audio.play();
+    if (promise && typeof promise.catch === 'function') {
+      /* Autoplay blocked? start on the first interaction instead. */
+      promise.catch(function () {
+        document.addEventListener('pointerdown', resume);
+        document.addEventListener('keydown', resume);
+        document.addEventListener('touchstart', resume);
+      });
+    }
+  }
+
   /* Initial render, then start the cinematic stream. */
+  initMusic();
   initLikeButtons();
   startTimeline();
   initSidebarGrids();
