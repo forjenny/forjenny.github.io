@@ -479,35 +479,39 @@
 
   var ANILIST_ENDPOINT = 'https://graphql.anilist.co';
 
+  /* The grid is a fixed 5 columns x 4 rows, so never render more than 20. */
+  var ANIME_GRID_LIMIT = 20;
+
   /* AniList has no "FAVOURITES" MediaListStatus, so favourites are pulled
      straight off the user and enriched with the progress from their
-     MediaListCollection (the fields asked for: title / cover / progress /
-     episodes). Swap in a `status: CURRENT` MediaListCollection query if you
-     would rather show the currently-watching list instead. */
-  var FAVOURITES_QUERY = [
-    'query ($userId: Int) {',
-    '  User(id: $userId) {',
-    '    favourites {',
-    '      anime(perPage: 50) {',
-    '        nodes {',
-    '          id',
-    '          title { userPreferred }',
-    '          coverImage { large }',
-    '          episodes',
-    '        }',
-    '      }',
-    '    }',
-    '  }',
-    '  MediaListCollection(userId: $userId, type: ANIME) {',
-    '    lists {',
-    '      entries {',
-    '        progress',
-    '        media { id }',
-    '      }',
-    '    }',
-    '  }',
-    '}',
-  ].join('\n');
+     MediaListCollection. `type` is ANIME or MANGA; `countField` is the total
+     field on Media ("episodes" / "chapters"). */
+  function favouritesQuery(type, countField) {
+    return [
+      'query ($userId: Int) {',
+      '  User(id: $userId) {',
+      '    favourites {',
+      '      ' + type.toLowerCase() + '(perPage: 50) {',
+      '        nodes {',
+      '          id',
+      '          title { userPreferred }',
+      '          coverImage { large }',
+      '          ' + countField,
+      '        }',
+      '      }',
+      '    }',
+      '  }',
+      '  MediaListCollection(userId: $userId, type: ' + type + ') {',
+      '    lists {',
+      '      entries {',
+      '        progress',
+      '        media { id }',
+      '      }',
+      '    }',
+      '  }',
+      '}',
+    ].join('\n');
+  }
 
   /* Fisher-Yates shuffle (returns a new array). */
   function shuffle(array) {
@@ -523,8 +527,10 @@
     return result;
   }
 
-  /* Fetch one user's favourites, with progress pulled from their list. */
-  async function fetchUserFavourites(userId) {
+  /* Fetch one user's favourites of a given media type, with progress pulled
+     from their media list. Returns normalised cards:
+     { title, cover, total, progress, unit }. */
+  async function fetchUserFavourites(userId, type, countField, unit) {
     var response = await fetch(ANILIST_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -532,7 +538,7 @@
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        query: FAVOURITES_QUERY,
+        query: favouritesQuery(type, countField),
         variables: { userId: userId },
       }),
     });
@@ -546,15 +552,11 @@
       throw new Error(payload.errors[0].message);
     }
 
-    var user = payload.data && payload.data.User;
-    var nodes =
-      (user &&
-        user.favourites &&
-        user.favourites.anime &&
-        user.favourites.anime.nodes) ||
-      [];
+    var collection = payload.data && payload.data.User && payload.data.User.favourites;
+    var key = type.toLowerCase();
+    var nodes = (collection && collection[key] && collection[key].nodes) || [];
 
-    /* media id -> progress, taken from the user's anime list. */
+    /* media id -> progress, taken from the user's list. */
     var progressById = {};
     var lists =
       (payload.data &&
@@ -576,38 +578,52 @@
       return {
         title: (node.title && node.title.userPreferred) || '',
         cover: (node.coverImage && node.coverImage.large) || '',
-        episodes: node.episodes,
+        total: node[countField] == null ? null : Number(node[countField]),
         progress: typeof progress === 'number' ? progress : 0,
+        unit: unit,
       };
     });
   }
 
-  /* Fetch both users' favourites in parallel, merge, then shuffle. */
+  /* Fetch both users' anime favourites in parallel, merge, then shuffle. */
   async function fetchFavoriteAnime() {
     var lists = await Promise.all([
-      fetchUserFavourites(REEZE_ID),
-      fetchUserFavourites(PHOTON_ID),
+      fetchUserFavourites(REEZE_ID, 'ANIME', 'episodes', 'Ep'),
+      fetchUserFavourites(PHOTON_ID, 'ANIME', 'episodes', 'Ep'),
     ]);
 
     return shuffle(lists[0].concat(lists[1]));
   }
 
-  function buildAnimeCard(item) {
-    var episodes = item.episodes == null ? null : Number(item.episodes);
+  /* Same, but for manga (chapters instead of episodes). */
+  async function fetchFavoriteManga() {
+    var lists = await Promise.all([
+      fetchUserFavourites(REEZE_ID, 'MANGA', 'chapters', 'Ch'),
+      fetchUserFavourites(PHOTON_ID, 'MANGA', 'chapters', 'Ch'),
+    ]);
+
+    return shuffle(lists[0].concat(lists[1]));
+  }
+
+  function buildMediaCard(item) {
+    var total = item.total == null ? null : Number(item.total);
     var progress = Number(item.progress) || 0;
-    var complete = episodes !== null && progress >= episodes;
+    var unit = item.unit || 'Ep';
+    var complete = total !== null && progress >= total;
 
     var label = complete
       ? 'Completed!'
-      : episodes !== null
-      ? 'Ep ' + progress + ' / ' + episodes
-      : 'Ep ' + progress;
+      : total !== null
+      ? unit + ' ' + progress + ' / ' + total
+      : unit + ' ' + progress;
 
     var attrs =
       ' data-progress="' +
       escapeHtml(progress) +
+      '" data-unit="' +
+      escapeHtml(unit) +
       '"' +
-      (episodes !== null ? ' data-total="' + escapeHtml(episodes) + '"' : '');
+      (total !== null ? ' data-total="' + escapeHtml(total) + '"' : '');
 
     return (
       '<div class="media-preview-card' +
@@ -619,7 +635,7 @@
       ' title="' +
       escapeHtml(item.title) +
       '">' +
-      '<button class="media-preview-add" type="button" aria-label="Add episode">' +
+      '<button class="media-preview-add" type="button" aria-label="Increment progress">' +
       '+' +
       '</button>' +
       '<div class="media-preview-overlay">' +
@@ -631,52 +647,81 @@
     );
   }
 
-  function renderAnimeInProgress(items) {
-    var grid = document.querySelector('.list-preview');
-    if (!grid) return;
+  /* One delegated listener per grid handles every card's "+" button. The
+     update is local to the DOM only — AniList would need auth to persist it. */
+  function handleGridClick(event) {
+    var button = event.target.closest('.media-preview-add');
+    if (!button) return;
 
-    grid.innerHTML = (items || []).map(buildAnimeCard).join('');
+    var card = button.closest('.media-preview-card');
+    if (!card || card.classList.contains('is-complete')) return;
 
-    /* One delegated listener handles every card's "+" button. The update is
-       local to the DOM only — AniList would need auth to persist it. */
-    grid.addEventListener('click', function (event) {
-      var button = event.target.closest('.media-preview-add');
-      if (!button) return;
+    var hasTotal = card.dataset.total !== undefined && card.dataset.total !== '';
+    var total = hasTotal ? Number(card.dataset.total) : null;
+    var unit = card.dataset.unit || 'Ep';
+    var progress = (Number(card.dataset.progress) || 0) + 1;
+    card.dataset.progress = progress;
 
-      var card = button.closest('.media-preview-card');
-      if (!card || card.classList.contains('is-complete')) return;
+    var label = card.querySelector('.media-preview-episode');
 
-      var hasTotal = card.dataset.total !== undefined && card.dataset.total !== '';
-      var total = hasTotal ? Number(card.dataset.total) : null;
-      var progress = (Number(card.dataset.progress) || 0) + 1;
-      card.dataset.progress = progress;
-
-      var label = card.querySelector('.media-preview-episode');
-
-      if (total !== null && progress >= total) {
-        card.classList.add('is-complete');
-        if (label) label.textContent = 'Completed!';
-      } else if (label) {
-        label.textContent =
-          total !== null ? 'Ep ' + progress + ' / ' + total : 'Ep ' + progress;
-      }
-    });
+    if (total !== null && progress >= total) {
+      card.classList.add('is-complete');
+      if (label) label.textContent = 'Completed!';
+    } else if (label) {
+      label.textContent =
+        total !== null
+          ? unit + ' ' + progress + ' / ' + total
+          : unit + ' ' + progress;
+    }
   }
 
-  /* Load the favourites, then render; an empty grid on any failure. */
-  async function initAnimeGrid() {
-    var items = [];
+  /* Fill a grid with up to 20 cards (5 columns x 4 rows). */
+  function renderMediaGrid(grid, items) {
+    if (!grid) return;
 
+    grid.innerHTML = (items || [])
+      .slice(0, ANIME_GRID_LIMIT)
+      .map(buildMediaCard)
+      .join('');
+  }
+
+  function renderAnimeInProgress(items) {
+    renderMediaGrid(document.querySelector('.list-preview'), items);
+  }
+
+  function renderMangaInProgress(items) {
+    renderMediaGrid(document.querySelector('#manga-progress-grid'), items);
+  }
+
+  /* Load both grids; an empty grid on any failure. */
+  async function initSidebarGrids() {
+    var animeGrid = document.querySelector('.list-preview');
+    var mangaGrid = document.querySelector('#manga-progress-grid');
+
+    if (animeGrid) animeGrid.addEventListener('click', handleGridClick);
+    if (mangaGrid) mangaGrid.addEventListener('click', handleGridClick);
+
+    var anime = [];
     try {
-      items = await fetchFavoriteAnime();
+      anime = await fetchFavoriteAnime();
     } catch (error) {
       if (window.console && console.warn) {
-        console.warn('AniList favourites unavailable:', error);
+        console.warn('AniList anime favourites unavailable:', error);
       }
-      items = [];
+      anime = [];
     }
+    renderAnimeInProgress(anime);
 
-    renderAnimeInProgress(items);
+    var manga = [];
+    try {
+      manga = await fetchFavoriteManga();
+    } catch (error) {
+      if (window.console && console.warn) {
+        console.warn('AniList manga favourites unavailable:', error);
+      }
+      manga = [];
+    }
+    renderMangaInProgress(manga);
   }
 
   /* ------------------------------------------------------------------ */
@@ -710,5 +755,5 @@
   renderPosts(initialPosts);
   initLikeButtons();
   startTimeline();
-  initAnimeGrid();
+  initSidebarGrids();
 })();

@@ -8,6 +8,7 @@
   --color-header: 21, 31, 46;
   --color-highlight: 240, 243, 246;
   --color-accent: 61, 180, 242;
+  --color-text-bright: 240, 243, 246;
   --color-background: 11, 22, 34;
   --color-foreground: 21, 31, 46;
   --color-foreground-grey: 15, 22, 31;
@@ -47,6 +48,7 @@ body.site-theme-dark {
   --color-header: 21, 31, 46;
   --color-highlight: 240, 243, 246;
   --color-accent: 61, 180, 242;
+  --color-text-bright: 240, 243, 246;
   --color-background: 11, 22, 34;
   --color-foreground: 21, 31, 46;
   --color-foreground-grey: 15, 22, 31;
@@ -258,6 +260,7 @@ body {
 .avatar.nav-avatar {
   width: 38px;
   height: 38px;
+  border-radius: 3px;
   background-color: rgb(var(--color-gray-400));
   background-image: url('../assets/photon-current.png');
   background-position: center;
@@ -271,27 +274,39 @@ body {
   position: relative;
   display: flex;
   align-items: center;
+  gap: 6px;
+  cursor: pointer;
 }
 
 .caret {
-  position: absolute;
-  top: 0;
-  right: -6px;
-  width: 12px;
-  height: 12px;
+  flex: none;
+  width: 16px;
+  height: 16px;
   color: rgb(var(--color-text-lighter));
   opacity: 0.5;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
 
 .user-wrap:hover .caret {
   opacity: 1;
+  color: rgb(var(--color-text-bright));
+}
+
+/* invisible "bridge" that keeps the dropdown open while the pointer travels
+   from the avatar/caret down to the menu */
+.user-wrap:hover::after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  left: -150%;
+  z-index: 1;
+  width: 300%;
+  height: 30px;
 }
 
 .dropdown {
   position: absolute;
-  top: 46px;
+  top: 50px;
   right: 0;
   z-index: 200;
   width: 200px;
@@ -314,7 +329,7 @@ body {
   content: '';
   position: absolute;
   top: -6px;
-  right: 12px;
+  right: 8px;
   border-bottom: 6px solid rgb(var(--color-gray-100));
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
@@ -324,8 +339,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 21px 27px;
-  margin-bottom: -18px;
+  padding: 21px 27px 28px 27px;
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(var(--color-text-lighter), 0.1);
 }
 
 .primary-link {
@@ -757,11 +773,16 @@ body {
   gap: 24px;
 }
 
-.list-preview-header {
+.list-preview-header,
+.panel-header {
   margin-bottom: 10px;
   font-size: 1.4rem;
   font-weight: 500;
   color: rgb(var(--color-text));
+}
+
+.panel-header {
+  margin-top: 30px;
 }
 
 .list-preview {
@@ -1075,4 +1096,69 @@ body {
   .glow-reply {
     animation: none;
   }
+}
+
+/* ==========================================================================
+   Placeholder pages + Discord easter egg
+   ========================================================================== */
+
+.placeholder,
+.easter-egg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: calc(100vh - 75px);
+  padding: 40px;
+  text-align: center;
+}
+
+.placeholder p {
+  font-size: 1.6rem;
+  color: rgb(var(--color-text-light));
+}
+
+.placeholder-link {
+  font-size: 1.4rem;
+  color: rgb(var(--color-blue));
+}
+
+.placeholder-link:hover {
+  text-decoration: underline;
+}
+
+.easter-egg-heart {
+  color: #f4abba;
+}
+
+.easter-egg-heart svg {
+  width: 64px;
+  height: 64px;
+}
+
+.easter-egg h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: rgb(var(--color-white));
+}
+
+.easter-egg p {
+  font-size: 1.4rem;
+  color: rgb(var(--color-text-light));
+}
+
+.easter-egg-button {
+  margin-top: 8px;
+  padding: 10px 20px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgb(var(--color-white));
+  background-color: rgb(var(--color-blue));
+  border-radius: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.easter-egg-button:hover {
+  opacity: 0.85;
 }

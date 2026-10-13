@@ -83,8 +83,8 @@ const reezeSpecialPost = {
   avatarUrl: '../assets/reeze-current.png',
   text: `Uni is so funny. My deadline is in 3 days. I still emailed my professor that I won't make it and he gave me a 2 week extension no questions whatsoever. Who said "That shit won't fly in uni"?`,
   timestamp: 'a few seconds ago',
-  likes: 42,
-  comments: 7,
+  likes: 0,
+  comments: 0,
 };
 
 /* ==========================================================================
