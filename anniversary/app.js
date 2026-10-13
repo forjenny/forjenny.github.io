@@ -8,7 +8,9 @@
   var SLIDE_MS = 500; // matches the .tween-in / slide-down duration
   var STEP_MS = 1500; // gap between streamed posts
   var FINAL_PAUSE_MS = 2000; // pause before Jenny's special post
-  var TYPE_MS = 50; // one character per tick while Photon "types"
+  var TYPE_MS = 48; // base delay between characters while Photon "types"
+  var TYPE_JITTER_MS = 24; // random extra per-character delay (uneven, human rhythm)
+  var TYPE_DELETE_MS = 140; // delay after a backspace
   var POST_PAUSE_MS = 1000; // pause after typing before the reply is posted
   var GLOW_DELAY_MS = 2000; // delay before Reeze's reply button starts glowing
   var RTE_START_DELAY_MS = 1000; // pause before Photon starts typing in the editor
@@ -559,6 +561,69 @@
     });
   }
 
+  /* Little "thinking" pauses, keyed to the tail of what's been typed. */
+  var TYPING_THINK_PAUSES = [
+    { after: 'actually', ms: 320 },
+    { after: 'from how teachers', ms: 260 },
+    { after: 'or are distracted', ms: 380 },
+    { after: 'class lol', ms: 520 },
+  ];
+
+  /* One slip of the fingers, midway through — typed, noticed, backspaced. */
+  var TYPING_TYPO = { word: 'distracted', prefix: 7, wrong: 'c' };
+
+  /* Turn a message into typing / backspace / pause steps so Photon reads less
+     like a robot: uneven speed, mid-sentence thinking, one corrected typo. */
+  function buildTypingPlan(text) {
+    var plan = [];
+    var typed = '';
+    var i = 0;
+
+    function typeChunk(chunk) {
+      for (var k = 0; k < chunk.length; k += 1) {
+        plan.push({ op: 'type', text: chunk.charAt(k) });
+        typed += chunk.charAt(k);
+      }
+    }
+
+    while (i < text.length) {
+      if (text.slice(i, i + TYPING_TYPO.word.length) === TYPING_TYPO.word) {
+        typeChunk(TYPING_TYPO.word.slice(0, TYPING_TYPO.prefix));
+        plan.push({ op: 'type', text: TYPING_TYPO.wrong }); // the mistake
+        typed += TYPING_TYPO.wrong;
+        plan.push({ op: 'pause', ms: 420 }); // "…wait, that's not right"
+        plan.push({ op: 'delete' }); // backspace
+        typed = typed.slice(0, -1);
+        plan.push({ op: 'pause', ms: 220 });
+        typeChunk(TYPING_TYPO.word.slice(TYPING_TYPO.prefix));
+        i += TYPING_TYPO.word.length;
+        continue;
+      }
+
+      var ch = text.charAt(i);
+      typeChunk(ch);
+      i += 1;
+
+      if (ch === '\n') {
+        plan.push({ op: 'pause', ms: 460 });
+      } else if (ch === '.' || ch === '!' || ch === '?') {
+        plan.push({ op: 'pause', ms: 300 });
+      } else if (ch === ',' || ch === ';' || ch === ':') {
+        plan.push({ op: 'pause', ms: 190 });
+      } else {
+        for (var j = 0; j < TYPING_THINK_PAUSES.length; j += 1) {
+          var tail = TYPING_THINK_PAUSES[j].after;
+          if (typed.length >= tail.length && typed.slice(-tail.length) === tail) {
+            plan.push({ op: 'pause', ms: TYPING_THINK_PAUSES[j].ms });
+            break;
+          }
+        }
+      }
+    }
+
+    return plan;
+  }
+
   function openReplyEditor(card) {
     var wrap = card.querySelector('.wrap');
     var actions = card.querySelector('.actions');
@@ -578,7 +643,7 @@
     var timer = null;
 
     function closeEditor() {
-      if (timer) clearInterval(timer);
+      if (timer) clearTimeout(timer);
       if (editor.parentNode) editor.parentNode.removeChild(editor);
     }
 
@@ -610,16 +675,18 @@
     setTimeout(function () {
       if (cancelled) return;
 
-      var i = 0;
+      var plan = buildTypingPlan(REPLY_TEXT);
+      var index = 0;
 
-      timer = setInterval(function () {
-        if (cancelled) {
-          clearInterval(timer);
-          return;
-        }
+      function paint() {
+        if (previewText) previewText.textContent = textarea.value;
+        textarea.scrollTop = textarea.scrollHeight;
+      }
 
-        if (i >= REPLY_TEXT.length) {
-          clearInterval(timer);
+      function step() {
+        if (cancelled) return;
+
+        if (index >= plan.length) {
           timer = null;
 
           /* let the finished text sit for a moment, then auto-publish */
@@ -629,11 +696,23 @@
           return;
         }
 
-        textarea.value += REPLY_TEXT.charAt(i);
-        if (previewText) previewText.textContent = textarea.value;
-        textarea.scrollTop = textarea.scrollHeight;
-        i += 1;
-      }, TYPE_MS);
+        var op = plan[index];
+        index += 1;
+
+        if (op.op === 'type') {
+          textarea.value += op.text;
+          paint();
+          timer = setTimeout(step, TYPE_MS + Math.random() * TYPE_JITTER_MS);
+        } else if (op.op === 'delete') {
+          textarea.value = textarea.value.slice(0, -1);
+          paint();
+          timer = setTimeout(step, TYPE_DELETE_MS);
+        } else {
+          timer = setTimeout(step, op.ms);
+        }
+      }
+
+      step();
     }, RTE_START_DELAY_MS);
   }
 
@@ -1018,7 +1097,7 @@
 
     var audio = new Audio('../assets/ss.mp3');
     audio.loop = true;
-    audio.volume = 0.35;
+    audio.volume = 0.25;
     window.__bgMusic = audio;
 
     function resume() {

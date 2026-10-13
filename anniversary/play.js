@@ -11,7 +11,7 @@
 
   if (!audio) return;
 
-  audio.volume = 0.35;
+  audio.volume = 0.25;
   audio.loop = true;
 
   /* If autoplay is blocked, start on the first interaction — in this document
