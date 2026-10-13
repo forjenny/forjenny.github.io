@@ -319,23 +319,23 @@
     }
   }
 
-  /* A browser refresh replays the story; navigating between the site's pages
-     (same session) does not. */
-  function resetNarrativeOnReload() {
-    try {
-      var entries = performance.getEntriesByType('navigation');
-      var type =
-        entries && entries.length
-          ? entries[0].type
-          : performance.navigation && performance.navigation.type === 1
-          ? 'reload'
-          : 'navigate';
+  // /* A browser refresh replays the story; navigating between the site's pages
+  //    (same session) does not. */
+  // function resetNarrativeOnReload() {
+  //   try {
+  //     var entries = performance.getEntriesByType('navigation');
+  //     var type =
+  //       entries && entries.length
+  //         ? entries[0].type
+  //         : performance.navigation && performance.navigation.type === 1
+  //         ? 'reload'
+  //         : 'navigate';
 
-      if (type === 'reload') sessionStorage.removeItem('narrativePlayed');
-    } catch (error) {
-      /* ignore */
-    }
-  }
+  //     if (type === 'reload') sessionStorage.removeItem('narrativePlayed');
+  //   } catch (error) {
+  //     /* ignore */
+  //   }
+  // }
 
   /* ------------------------------------------------------------------ */
   /* Photon's threaded reply                                             */
@@ -1199,7 +1199,7 @@
   }
 
   /* Initial render, then start the cinematic stream. */
-  resetNarrativeOnReload();
+  // resetNarrativeOnReload();
   initMusic();
   initLikeButtons();
   startTimeline();
