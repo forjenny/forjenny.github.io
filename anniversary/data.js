@@ -1,50 +1,5 @@
-/* ==========================================================================
-   Initial feed content — the 5 posts rendered on load.
-   Each post: username, avatarUrl, text, timestamp, likes, comments.
-   ========================================================================== */
-
-const initialPosts = [
-  {
-    username: 'jenny',
-    avatarUrl: 'https://i.pravatar.cc/150?u=jenny',
-    text: 'hi going to japan yet again',
-    timestamp: '17 seconds ago',
-    likes: 12,
-    comments: 3,
-  },
-  {
-    username: 'sayaka',
-    avatarUrl: 'https://i.pravatar.cc/150?u=sayaka',
-    text: 'miki sayaka',
-    timestamp: '3 minutes ago',
-    likes: 4,
-    comments: 0,
-  },
-  {
-    username: 'maria',
-    avatarUrl: 'https://i.pravatar.cc/150?u=maria',
-    text: 'volví a morir en otro mundo hardcore',
-    timestamp: '1 hour ago',
-    likes: 27,
-    comments: 9,
-  },
-  {
-    username: 'theo',
-    avatarUrl: 'https://i.pravatar.cc/150?u=theo',
-    text: 'I found the meaning of life',
-    timestamp: '5 hours ago',
-    likes: 63,
-    comments: 14,
-  },
-  {
-    username: 'nina',
-    avatarUrl: 'https://i.pravatar.cc/150?u=nina',
-    text: 'I submitted my workkkk with 11 and a half hours to spare yay :D',
-    timestamp: 'yesterday',
-    likes: 8,
-    comments: 1,
-  },
-];
+/* The activity feed starts empty — every post is streamed in by the
+   narrative timeline (see `timelineEvents` below and `startTimeline()`). */
 
 /* ==========================================================================
    Timeline — posts streamed in on top of the initial feed.
@@ -79,6 +34,14 @@ Also me: ohh... there's a photo...mode`,
     timestamp: '3 weeks ago',
     likes: 33,
     comments: 6,
+  },
+  {
+    username: 'traxmeister',
+    avatarUrl: '../assets/traxmeister.png',
+    text: 'yeah... 500 total anime :) and over 7.500 episodes.....',
+    timestamp: 'a few seconds ago',
+    likes: 106,
+    comments: 5,
   },
 ];
 

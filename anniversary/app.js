@@ -862,8 +862,7 @@
     });
   }
 
-  /* Initial render, then start the cinematic stream. */
-  renderPosts(initialPosts);
+  /* The feed starts empty — the cinematic timeline streams every post in. */
   initLikeButtons();
   startTimeline();
   initSidebarGrids();
