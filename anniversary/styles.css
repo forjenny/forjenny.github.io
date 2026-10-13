@@ -6,6 +6,7 @@
   --color-header: 21, 31, 46;
   --color-highlight: 240, 243, 246;
   --color-accent: 61, 180, 242;
+  --color-heart: 244, 171, 186;
   --color-text-bright: 240, 243, 246;
   --color-background: 11, 22, 34;
   --color-foreground: 21, 31, 46;
@@ -47,6 +48,7 @@ body.site-theme-dark {
   --color-header: 21, 31, 46;
   --color-highlight: 240, 243, 246;
   --color-accent: 61, 180, 242;
+  --color-heart: 244, 171, 186;
   --color-text-bright: 240, 243, 246;
   --color-background: 11, 22, 34;
   --color-foreground: 21, 31, 46;
@@ -1227,7 +1229,12 @@ body {
 }
 
 .easter-egg-heart {
-  color: #f4abba;
+  color: rgb(var(--color-heart));
+}
+
+/* the sign-off name, in the same pink as the heart */
+.easter-egg-name {
+  color: rgb(var(--color-heart));
 }
 
 .easter-egg-heart svg {
