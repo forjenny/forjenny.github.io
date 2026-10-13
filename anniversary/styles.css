@@ -303,8 +303,9 @@ body {
 
 .activity-entry .header .avatar {
   flex: none;
-  width: 4.4rem;
-  height: 4.4rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
 }
 
 .activity-entry .name {
@@ -312,20 +313,6 @@ body {
   font-weight: 600;
   line-height: 1.2;
   color: rgb(var(--color-blue));
-}
-
-.activity-entry .donator-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.8rem;
-  height: 1.8rem;
-  color: rgb(var(--color-peach));
-}
-
-.activity-entry .donator-badge svg {
-  width: 100%;
-  height: 100%;
 }
 
 .activity-entry .time {
@@ -374,11 +361,23 @@ body {
   color: rgb(var(--color-white));
 }
 
-.activity-entry .action.is-liked {
+/* Like button: default light text; red when liked; blue on hover only while
+   not liked. Inherits color down to both the heart icon and the count. */
+.activity-entry .action.likes {
+  color: rgb(var(--color-text-light));
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.activity-entry .action.likes:hover {
+  color: rgb(var(--color-blue));
+}
+
+.activity-entry .action.likes.liked {
   color: rgb(var(--color-red));
 }
 
-.activity-entry .action.is-liked:hover {
+.activity-entry .action.likes.liked:hover {
   color: rgb(var(--color-red));
 }
 
@@ -396,9 +395,10 @@ body {
   flex-direction: column;
 }
 
-/* spacing between consecutive posts (the header/status box set their own) */
-.activity-feed > .activity-entry + .activity-entry {
-  margin-top: 1.6rem;
+/* Standard spacing below every post (works whether or not a reply thread,
+   hidden or visible, follows it). */
+.activity-feed > .activity-entry {
+  margin-bottom: 20px;
 }
 
 /* --------------------------------------------------------------------------
@@ -482,52 +482,6 @@ body {
   border: none;
 }
 
-.reply {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.2rem;
-  margin-top: 1.6rem;
-}
-
-.reply .el-textarea {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.photon-avatar {
-  flex: none;
-  width: 3.2rem;
-  height: 3.2rem;
-  border-radius: 50%;
-  background-color: rgb(var(--color-gray-400));
-  background-image: url('../assets/photon-current.png');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  box-shadow: 0 0 0.8rem rgba(var(--color-blue), 0.6);
-}
-
-.reply-post {
-  flex: none;
-  align-self: flex-end;
-  padding: 0.8rem 1.6rem;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: rgb(var(--color-background));
-  background-color: rgb(var(--color-blue));
-  border-radius: 0.4rem;
-  transition: opacity 0.15s ease;
-}
-
-.reply-post:hover {
-  opacity: 0.85;
-}
-
-.reply-post:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
 .el-textarea {
   display: inline-block;
   width: 100%;
@@ -557,13 +511,6 @@ body {
 
 .el-textarea__inner:focus {
   border-color: rgb(var(--color-blue));
-}
-
-.el-textarea__inner:disabled {
-  opacity: 1;
-  color: rgb(var(--color-text));
-  -webkit-text-fill-color: rgb(var(--color-text));
-  cursor: default;
 }
 
 /* ==========================================================================
@@ -789,12 +736,17 @@ body {
 /* === Rich Text Editor (AniList Style) === */
 
 .input {
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 0;
+  padding: 0;
+  background: transparent; /* page background shows through the gaps */
+  border-radius: 0;
 }
 
 .input .markdown-editor {
   display: grid;
   grid-template-columns: repeat(15, 1fr);
+  gap: 4px;
   margin-bottom: 12px;
   padding: 12px 20px;
   background: rgb(var(--color-foreground));
@@ -802,11 +754,14 @@ body {
 }
 
 .input .md-tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   justify-self: center;
+  align-self: center;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 1;
   color: rgb(var(--color-text-light));
   transition: 0.2s;
 }
@@ -815,30 +770,17 @@ body {
   color: rgb(var(--color-blue));
 }
 
-.input .avatar {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border-radius: 3px;
-  background-size: cover;
-  background-position: center;
-}
-
-.input .name {
-  display: inline-block;
-  height: 40px;
-  margin-left: 12px;
-  font-size: 1.4rem;
-  line-height: 40px;
-  vertical-align: top;
-  color: rgb(var(--color-blue));
+.input .md-tool svg {
+  width: 18px;
+  height: 18px;
 }
 
 .input .el-textarea__inner {
   width: 100%;
-  margin-top: 12px;
-  padding: 8px 15px;
-  font-size: 1.3rem;
+  min-height: 60px;
+  margin-bottom: 12px;
+  padding: 12px 20px;
+  font-size: 1.4rem;
   color: rgb(var(--color-text));
   background: rgb(var(--color-foreground));
   border: 0;
@@ -852,29 +794,59 @@ body {
 }
 
 .input .el-textarea__inner:focus {
-  box-shadow: 0 1px 10px 0 rgba(49, 54, 68, 0.15);
+  box-shadow: 0 0 0 2px rgba(var(--color-blue), 0.4);
 }
 
 .input .el-textarea__inner::placeholder {
   color: rgb(var(--color-text-lighter));
 }
 
-.input .markdown {
-  margin-top: 14px;
-  max-height: 800px;
-  overflow: hidden;
+.preview-label {
+  margin-top: 8px;
+  margin-bottom: 8px;
   font-size: 1.4rem;
+  font-weight: 500;
   color: rgb(var(--color-text));
-  border-radius: 3px;
-  overflow-wrap: break-word;
-  word-break: break-word;
 }
 
-.input .markdown .preview-text {
+.markdown-preview-card {
+  margin-bottom: 12px;
+  padding: 20px;
+  background: rgb(var(--color-foreground));
+  border-radius: 4px;
+}
+
+.markdown-preview-card .preview-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.markdown-preview-card .preview-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 3px;
+  background-image: url('../assets/photon-current.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.markdown-preview-card .preview-username {
+  margin-left: 12px;
+  font-size: 1.4rem;
+  color: rgb(var(--color-blue));
+}
+
+.markdown-preview-card .preview-text {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: rgb(var(--color-text));
+  overflow-wrap: break-word;
   white-space: pre-wrap;
 }
 
 .input .rules-notice {
+  margin: 0;
   font-size: 1.2rem;
   color: rgb(var(--color-text-lighter));
   text-align: right;
@@ -882,9 +854,19 @@ body {
 
 .input .actions {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
   gap: 10px;
-  margin-bottom: 60px;
+  margin-top: 12px;
+  margin-bottom: 20px;
+  padding: 12px 20px;
+  background: rgb(var(--color-foreground));
+  border-radius: 4px;
+}
+
+.input .button-row {
+  display: flex;
+  gap: 10px;
 }
 
 .input .button {
@@ -925,6 +907,17 @@ body {
    Threaded reply
    ========================================================================== */
 
+.reply-thread {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.reply-thread.collapsed {
+  display: none;
+}
+
 .threaded-reply {
   margin-left: 60px;
   margin-right: 20px;
@@ -945,6 +938,11 @@ body {
   border-radius: 4px;
   pointer-events: none;
   cursor: default;
+}
+
+/* subtle indicator: the reply icon stays blue while its thread is collapsed */
+.activity-entry .action.replies.thread-collapsed {
+  color: rgb(var(--color-blue));
 }
 
 @media (prefers-reduced-motion: reduce) {

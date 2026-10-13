@@ -32,11 +32,6 @@
       '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />' +
       '<path d="M13.7 21a2 2 0 0 1-3.4 0" /></svg>',
 
-    badge:
-      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
-      '<path d="M12 21s-7.5-4.9-10-9.5C.3 8.4 2.4 5 5.6 5c1.9 0 3.2 1 4.4 2.6' +
-      'C11.2 6 12.5 5 14.4 5c3.2 0 5.3 3.4 3.6 6.5C19.5 16.1 12 21 12 21z" /></svg>',
-
     replies:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -44,13 +39,13 @@
       'A8.4 8.4 0 0 1 4 11.5a8.4 8.4 0 0 1 8.4-8.4h.6a8.4 8.4 0 0 1 8 8z" /></svg>',
 
     likes:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 ' +
       '7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" /></svg>',
 
     likesFilled:
-      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+      '<svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
       '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 ' +
       '7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" /></svg>',
   };
@@ -81,9 +76,6 @@
       '<span class="name">' +
       escapeHtml(post.username) +
       '</span>' +
-      '<span class="donator-badge" title="Donator">' +
-      ICONS.badge +
-      '</span>' +
       '<span class="time">' +
       ICONS.bell +
       '<span>' +
@@ -104,10 +96,10 @@
       '</span>' +
       '</button>' +
       '<button class="action likes' +
-      (post.liked ? ' is-liked' : '') +
+      (post.liked ? ' liked' : '') +
       '" type="button">' +
       (post.liked ? ICONS.likesFilled : ICONS.likes) +
-      '<span>' +
+      '<span class="count">' +
       escapeHtml(post.likes) +
       '</span>' +
       '</button>' +
@@ -229,9 +221,12 @@
 
       if (!card) return;
 
+      card.dataset.replyState = 'glowing';
       initReezeReply(card);
 
       setTimeout(function () {
+        if (card.dataset.replyState !== 'glowing') return;
+
         var replyButton = card.querySelector('.action.replies');
         if (replyButton) replyButton.classList.add('glow-reply');
       }, GLOW_DELAY_MS);
@@ -239,127 +234,62 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Reply box                                                          */
-  /* ------------------------------------------------------------------ */
-
-  function initReply() {
-    var reply = document.querySelector('.reply');
-    if (!reply) return;
-
-    var textarea = reply.querySelector('.el-textarea__inner');
-    var postBtn = reply.querySelector('.reply-post');
-    var photon = reply.querySelector('.photon-avatar');
-
-    var posting = false;
-    var timer = null;
-
-    /* 1 + 2 — clicking the box expands it into a textarea with a Post button. */
-    function activate() {
-      reply.classList.add('is-active');
-      textarea.rows = 3;
-      postBtn.hidden = false;
-      if (document.activeElement !== textarea) textarea.focus();
-    }
-
-    reply.addEventListener('click', function (event) {
-      if (posting) return;
-      if (event.target.closest('.reply-post')) return;
-      activate();
-    });
-
-    textarea.addEventListener('focus', function () {
-      if (!posting) activate();
-    });
-
-    /* 3 — submit on button click or Enter (Shift+Enter inserts a newline). */
-    function submit() {
-      if (posting) return;
-      posting = true;
-
-      activate();
-      textarea.value = '';
-      textarea.disabled = true; // disable the text area
-      postBtn.hidden = true;
-      photon.hidden = false; // tiny Photon avatar next to the text area
-
-      typeReply();
-    }
-
-    postBtn.addEventListener('click', submit);
-
-    textarea.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        submit();
-      }
-    });
-
-    /* Type the reply one character at a time into the (now disabled) text area. */
-    function typeReply() {
-      var i = 0;
-
-      timer = setInterval(function () {
-        if (i >= REPLY_TEXT.length) {
-          clearInterval(timer);
-          timer = null;
-          setTimeout(postReply, POST_PAUSE_MS);
-          return;
-        }
-
-        textarea.value += REPLY_TEXT.charAt(i);
-        i += 1;
-
-        // keep the latest line in view
-        textarea.scrollTop = textarea.scrollHeight;
-      }, TYPE_MS);
-    }
-
-    /* 4 — after the pause, drop the reply in as a normal post at the top. */
-    function postReply() {
-      prependPost({
-        username: 'Photon',
-        avatarUrl: PHOTON_AVATAR,
-        text: REPLY_TEXT,
-        timestamp: 'a few seconds ago',
-        likes: 0,
-        comments: 0,
-      });
-
-      reset();
-    }
-
-    function reset() {
-      posting = false;
-      textarea.disabled = false;
-      textarea.value = '';
-      textarea.rows = 1;
-      textarea.placeholder = 'Write a reply...';
-      photon.hidden = true;
-      postBtn.hidden = true;
-      reply.classList.remove('is-active');
-    }
-  }
-
-  /* ------------------------------------------------------------------ */
   /* Reeze's post — reply editor + Photon typing simulation             */
   /* ------------------------------------------------------------------ */
 
   var MD_TOOLS = [
-    { label: 'B', title: 'Bold' },
-    { label: 'I', title: 'Italic' },
-    { label: 'U', title: 'Underline' },
-    { label: 'S', title: 'Strikethrough' },
-    { label: 'Link', title: 'Insert link' },
-    { label: 'Image', title: 'Insert image' },
-    { label: 'Quote', title: 'Quote' },
-    { label: 'Code', title: 'Code' },
-    { label: 'List', title: 'Bullet list' },
-    { label: '1.', title: 'Ordered list' },
-    { label: 'H', title: 'Heading' },
-    { label: 'Spoiler', title: 'Spoiler' },
-    { label: 'Video', title: 'Video' },
-    { label: 'Emoji', title: 'Emoji' },
-    { label: 'More', title: 'More' },
+    {
+      title: 'Bold',
+      svg: '<path d="M6 4h7a4 4 0 0 1 0 8H6z"/><path d="M6 12h8a4 4 0 0 1 0 8H6z"/>',
+    },
+    {
+      title: 'Italic',
+      svg: '<line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/>',
+    },
+    {
+      title: 'Underline',
+      svg: '<path d="M6 3v7a6 6 0 0 0 12 0V3"/><line x1="4" y1="21" x2="20" y2="21"/>',
+    },
+    {
+      title: 'Strikethrough',
+      svg: '<path d="M16 4H9a3 3 0 0 0-2.83 4"/><path d="M14 12a4 4 0 0 1 0 8H6"/><line x1="4" y1="12" x2="20" y2="12"/>',
+    },
+    {
+      title: 'Insert link',
+      svg: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+    },
+    {
+      title: 'Insert image',
+      svg: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>',
+    },
+    {
+      title: 'Video',
+      svg: '<rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3z"/>',
+    },
+    {
+      title: 'Bullet list',
+      svg: '<line x1="9" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="4" cy="18" r="1.5"/>',
+    },
+    {
+      title: 'Ordered list',
+      svg: '<line x1="11" y1="6" x2="21" y2="6"/><line x1="11" y1="12" x2="21" y2="12"/><line x1="11" y1="18" x2="21" y2="18"/><text x="2.5" y="9" font-size="8" fill="currentColor" stroke="none">1</text>',
+    },
+    {
+      title: 'Align left',
+      svg: '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/>',
+    },
+    {
+      title: 'Align center',
+      svg: '<line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>',
+    },
+    {
+      title: 'Quote',
+      svg: '<path d="M6 8h3v3a4 4 0 0 1-4 4z"/><path d="M15 8h3v3a4 4 0 0 1-4 4z"/>',
+    },
+    {
+      title: 'Code',
+      svg: '<polyline points="8 6 3 12 8 18"/><polyline points="16 6 21 12 16 18"/>',
+    },
   ];
 
   var RTE_HTML =
@@ -371,20 +301,31 @@
         '<div class="md-tool" title="' +
         tool.title +
         '">' +
-        tool.label +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+        'aria-hidden="true">' +
+        tool.svg +
+        '</svg>' +
         '</div>'
       );
     }).join('') +
     '</div>' +
-    '<a class="avatar" style="background-image: url(\'../assets/photon-current.png\')"></a>' +
-    '<a class="name">Photon</a>' +
     '<textarea class="el-textarea__inner" placeholder="Write a reply..."></textarea>' +
     '</div>' +
-    '<div class="markdown"><p class="preview-text"></p></div>' +
-    '<div class="rules-notice">Please read the site guidelines before posting</div>' +
+    '<div class="preview-label">Preview:</div>' +
+    '<div class="markdown-preview-card">' +
+    '<div class="preview-header">' +
+    '<div class="preview-avatar"></div>' +
+    '<div class="preview-username">Photon</div>' +
+    '</div>' +
+    '<div class="preview-text"></div>' +
+    '</div>' +
     '<div class="actions">' +
+    '<div class="rules-notice">Please read the site guidelines before posting</div>' +
+    '<div class="button-row">' +
     '<button class="button cancel" type="button">Cancel</button>' +
     '<button class="button publish" type="button">Publish</button>' +
+    '</div>' +
     '</div>' +
     '</div>';
 
@@ -393,6 +334,26 @@
     if (!replyButton) return;
 
     replyButton.addEventListener('click', function () {
+      var state = card.dataset.replyState;
+
+      /* Phase 2 — RTE open / Photon is typing: ignore clicks. */
+      if (state === 'active') return;
+
+      /* Phase 3 — reply posted: the button toggles the thread. */
+      if (state === 'toggle') {
+        var collapsed = card.dataset.replyCollapsed === 'true';
+        var willCollapse = !collapsed;
+        var thread = card._replyThread;
+
+        if (thread) thread.classList.toggle('collapsed', willCollapse);
+
+        card.dataset.replyCollapsed = willCollapse ? 'true' : 'false';
+        replyButton.classList.toggle('thread-collapsed', willCollapse);
+        return;
+      }
+
+      /* Phase 1 — glowing (or untouched): start the reply flow. */
+      card.dataset.replyState = 'active';
       replyButton.classList.remove('glow-reply');
       openReplyEditor(card);
     });
@@ -430,30 +391,52 @@
       cancelled = true;
       closeEditor();
 
-      /* Thread the reply directly beneath the post being replied to. */
-      var replyCard = insertPostAfter(
-        {
-          username: 'Photon',
-          avatarUrl: PHOTON_AVATAR,
-          text: REPLY_TEXT,
-          timestamp: 'just now',
-          likes: 1,
-          comments: 0,
-          liked: true,
-        },
-        card
-      );
+      /* Build the reply as a threaded card + cosmetic box inside a wrapper. */
+      var replyCard = createCard({
+        username: 'Photon',
+        avatarUrl: PHOTON_AVATAR,
+        text: REPLY_TEXT,
+        timestamp: 'just now',
+        likes: 1,
+        comments: 0,
+        liked: true,
+      });
+      replyCard.classList.add('tween-in', 'threaded-reply');
 
-      if (!replyCard) return;
-
-      /* Indent it to nest under the parent… */
-      replyCard.classList.add('threaded-reply');
-
-      /* …and drop a cosmetic "Write a reply..." box right below it. */
       var replyBox = document.createElement('div');
       replyBox.className = 'threaded-reply-box';
       replyBox.textContent = 'Write a reply...';
-      replyCard.insertAdjacentElement('afterend', replyBox);
+
+      var thread = document.createElement('div');
+      thread.className = 'reply-thread';
+      thread.appendChild(replyCard);
+      thread.appendChild(replyBox);
+
+      /* FLIP: slide the cards below Reeze's post down, then insert the thread. */
+      var feed = document.querySelector('.activity-feed');
+      var existing = feed
+        ? Array.prototype.slice.call(feed.querySelectorAll('.activity-entry'))
+        : [];
+      var firstTops = existing.map(function (node) {
+        return node.getBoundingClientRect().top;
+      });
+
+      card.insertAdjacentElement('afterend', thread);
+      slideExistingDown(existing, firstTops);
+
+      /* Keep a reference so the reply button can toggle the whole thread. */
+      card._replyThread = thread;
+
+      /* The reply button graduates from "glowing" to a collapse/expand toggle. */
+      card.dataset.replyState = 'toggle';
+      card.dataset.replyCollapsed = 'false';
+
+      var replyButton = card.querySelector('.action.replies');
+      if (replyButton) {
+        replyButton.classList.remove('glow-reply');
+        replyButton.setAttribute('title', 'Toggle replies');
+        replyButton.setAttribute('aria-label', 'Toggle replies');
+      }
     }
 
     cancelButton.addEventListener('click', cancel);
@@ -696,9 +679,36 @@
     renderAnimeInProgress(items);
   }
 
+  /* ------------------------------------------------------------------ */
+  /* Like buttons — delegated on the feed so it also covers posts that  */
+  /* arrive later (timeline stream + Photon's threaded reply).           */
+  /* ------------------------------------------------------------------ */
+
+  function initLikeButtons() {
+    var feed = document.querySelector('.activity-feed');
+    if (!feed) return;
+
+    feed.addEventListener('click', function (event) {
+      var button = event.target.closest('.action.likes');
+      if (!button) return;
+
+      var liked = button.classList.toggle('liked');
+
+      var countEl = button.querySelector('.count');
+      if (countEl) {
+        var current = parseInt(countEl.textContent, 10) || 0;
+        countEl.textContent = liked ? current + 1 : Math.max(0, current - 1);
+      }
+
+      /* swap outline ↔ filled heart to match the state */
+      var icon = button.querySelector('.heart-icon');
+      if (icon) icon.outerHTML = liked ? ICONS.likesFilled : ICONS.likes;
+    });
+  }
+
   /* Initial render, then start the cinematic stream. */
   renderPosts(initialPosts);
+  initLikeButtons();
   startTimeline();
-  initReply();
   initAnimeGrid();
 })();
