@@ -53,6 +53,13 @@
       'class="svg-inline--fa fa-heart fa-w-16 fa-sm heart-icon">' +
       '<path fill="currentColor" d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path>' +
       '</svg>',
+
+    eye:
+      '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="eye" ' +
+      'role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" ' +
+      'class="svg-inline--fa fa-eye fa-w-18 fa-sm">' +
+      '<path fill="currentColor" d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z"></path>' +
+      '</svg>',
   };
 
   /* Escape user text so it can never break the card markup. */
@@ -197,28 +204,39 @@
   }
 
   /* Prepend one post to the top of the post list (below the static header and
-     status box) with the tween-in animation. Returns the new card element. */
-  function prependPost(post) {
+     status box). Animates by default; pass `false` to render it instantly
+     (used when reconstructing the final state on a repeat visit). */
+  function prependPost(post, animate) {
+    if (animate === undefined) animate = true;
+
     var feed = document.querySelector('.activity-feed');
     if (!feed) return null;
 
-    var existing = Array.prototype.slice.call(
-      feed.querySelectorAll('.activity-entry')
-    );
-    var firstTops = existing.map(function (node) {
-      return node.getBoundingClientRect().top;
-    });
-
+    var firstPost = feed.querySelector('.activity-entry');
     var card = createCard(post);
-    card.classList.add('tween-in');
 
-    if (existing.length) {
-      feed.insertBefore(card, existing[0]);
+    if (animate) {
+      var existing = Array.prototype.slice.call(
+        feed.querySelectorAll('.activity-entry')
+      );
+      var firstTops = existing.map(function (node) {
+        return node.getBoundingClientRect().top;
+      });
+
+      card.classList.add('tween-in');
+
+      if (firstPost) {
+        feed.insertBefore(card, firstPost);
+      } else {
+        feed.appendChild(card);
+      }
+
+      slideExistingDown(existing, firstTops);
+    } else if (firstPost) {
+      feed.insertBefore(card, firstPost);
     } else {
       feed.appendChild(card);
     }
-
-    slideExistingDown(existing, firstTops);
 
     return card;
   }
@@ -338,7 +356,12 @@
 
   /* Jump straight to the end of the story (used for repeat visits). */
   function renderFinalState() {
-    var card = prependPost(reezeSpecialPost);
+    /* Re-add the streamed posts (instantly, no tween), then Reeze on top. */
+    timelineEvents.forEach(function (post) {
+      prependPost(post, false);
+    });
+
+    var card = prependPost(reezeSpecialPost, false);
     if (!card) return;
 
     initReezeReply(card);
@@ -799,6 +822,78 @@
     renderMediaGrid(document.querySelector('#manga-progress-grid'), items);
   }
 
+  /* ------------------------------------------------------------------ */
+  /* Sidebar — Forum Activity                                            */
+  /* ------------------------------------------------------------------ */
+
+  function forumTag(label, color) {
+    var style = color
+      ? ' style="background-color: ' + escapeHtml(color) + '"'
+      : '';
+    return '<span class="category"' + style + '>' + escapeHtml(label) + '</span>';
+  }
+
+  function buildForumTags(item) {
+    if (item.tags && item.tags.length) {
+      return item.tags
+        .map(function (tag) {
+          return forumTag(tag.label, tag.color);
+        })
+        .join('');
+    }
+
+    return item.category ? forumTag(item.category, item.categoryColor) : '';
+  }
+
+  function buildForumCard(item) {
+    return (
+      '<div class="forum-card">' +
+      '<div class="forum-card-top">' +
+      '<div class="forum-title">' +
+      escapeHtml(item.title) +
+      '</div>' +
+      '<div class="forum-stats">' +
+      '<span class="forum-stat">' +
+      ICONS.eye +
+      escapeHtml(item.views) +
+      '</span>' +
+      '<span class="forum-stat">' +
+      ICONS.replies +
+      escapeHtml(item.replies) +
+      '</span>' +
+      '</div>' +
+      '</div>' +
+      (item.summary
+        ? '<div class="forum-summary">' + escapeHtml(item.summary) + '</div>'
+        : '') +
+      '<div class="forum-footer">' +
+      '<span class="forum-author">' +
+      '<span class="forum-avatar" style="background-image: url(\'' +
+      escapeHtml(item.replierAvatar) +
+      '\')"></span>' +
+      '<span class="forum-replier">' +
+      escapeHtml(item.replier) +
+      '</span>' +
+      '<span class="forum-replied">replied</span>' +
+      '<span class="forum-reply-time">' +
+      escapeHtml(item.replyTime) +
+      '</span>' +
+      '</span>' +
+      '<span class="forum-tags">' +
+      buildForumTags(item) +
+      '</span>' +
+      '</div>' +
+      '</div>'
+    );
+  }
+
+  function renderForumActivity(items) {
+    var wrap = document.querySelector('.forum-activity-wrap');
+    if (!wrap) return;
+
+    wrap.innerHTML = (items || []).map(buildForumCard).join('');
+  }
+
   /* Load both grids; an empty grid on any failure. */
   async function initSidebarGrids() {
     var animeGrid = document.querySelector('.list-preview');
@@ -866,4 +961,5 @@
   initLikeButtons();
   startTimeline();
   initSidebarGrids();
+  renderForumActivity(forumActivity);
 })();

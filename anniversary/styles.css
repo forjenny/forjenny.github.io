@@ -26,6 +26,7 @@
   --color-red: 232, 93, 117;
   --color-peach: 250, 122, 122;
   --color-orange: 247, 154, 99;
+  --color-brown: 224, 140, 92;
   --color-yellow: 247, 191, 99;
   --color-green: 123, 213, 85;
   --color-background-100: 21, 31, 46;
@@ -66,6 +67,7 @@ body.site-theme-dark {
   --color-red: 232, 93, 117;
   --color-peach: 250, 122, 122;
   --color-orange: 247, 154, 99;
+  --color-brown: 224, 140, 92;
   --color-yellow: 247, 191, 99;
   --color-green: 123, 213, 85;
   --color-background-100: 21, 31, 46;
@@ -1231,4 +1233,125 @@ body {
 
 .easter-egg-button:hover {
   opacity: 0.85;
+}
+
+/* ==========================================================================
+   Sidebar — Forum Activity
+   ========================================================================== */
+
+.forum-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 18px;
+  background-color: rgb(var(--color-foreground));
+  border-radius: 4px;
+}
+
+.forum-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.forum-title {
+  flex: 1 1 0;
+  min-width: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgb(var(--color-text));
+}
+
+.forum-stats {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  font-size: 1.2rem;
+  color: rgb(var(--color-text-lighter));
+  white-space: nowrap;
+}
+
+.forum-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.forum-stat svg {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.forum-summary {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  color: rgb(var(--color-text-lighter));
+  text-overflow: ellipsis;
+}
+
+.forum-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.forum-author {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.forum-avatar {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border-radius: 3px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+
+.forum-replier {
+  margin-left: 10px;
+  font-size: 1.3rem;
+  color: rgb(var(--color-blue));
+}
+
+.forum-replied,
+.forum-reply-time {
+  margin-left: 4px;
+  font-size: 1.3rem;
+  color: rgb(var(--color-text-lighter));
+}
+
+.forum-tags {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.category {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 100px;
+  color: #fff;
+  font-size: 1.1rem;
+  text-transform: lowercase;
+  white-space: nowrap;
 }

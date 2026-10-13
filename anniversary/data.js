@@ -31,7 +31,7 @@ Also me: ohh... there's a photo...mode`,
     headerText: 'I FINALLY GOT JINGRAN AFTER 140 CONVENES!!!! T^T',
     imageUrl: '../assets/jingran.jpg',
     text: 'I really wish when we convened a character that the weapon would come along with it, but oh well at least in our up coming Ananta Game we wont even need to gacha pull for characters, yayyy, looking forward to it!!',
-    timestamp: '3 weeks ago',
+    timestamp: 'a few seconds ago',
     likes: 33,
     comments: 6,
   },
@@ -54,6 +54,48 @@ const reezeSpecialPost = {
   likes: 0,
   comments: 0,
 };
+
+/* ==========================================================================
+   Sidebar — Forum Activity
+   ========================================================================== */
+
+const forumActivity = [
+  {
+    title: '30 Days Romcom Challenge',
+    views: 1159,
+    replies: 17,
+    summary: '',
+    replier: 'Photon',
+    replierAvatar: '../assets/photon-current.png',
+    replyTime: '3 weeks ago',
+    category: 'misc',
+    categoryColor: '#2596be',
+  },
+  {
+    title: 'Assume one thing about the user above you',
+    views: 37429,
+    replies: 4391,
+    summary: '',
+    replier: 'NaturallyAwkwrd',
+    replierAvatar: '../assets/NaturallyAwkwrd.png',
+    replyTime: '21 minutes ago',
+    category: 'forum games',
+    categoryColor: 'rgb(var(--color-orange))',
+  },
+  {
+    title: 'Anime that have character dynamics like Zero two and Hiro?',
+    views: 272,
+    replies: 32,
+    summary: '',
+    replier: 'Reeze',
+    replierAvatar: '../assets/reeze-current.png',
+    replyTime: '5 years ago',
+    tags: [
+      { label: 'anime', color: '#02a9ff' },
+      { label: 'recommendations', color: '#b052c9' },
+    ],
+  },
+];
 
 /* ==========================================================================
    AniList — user IDs (replace these placeholders with our real IDs).
