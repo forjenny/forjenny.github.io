@@ -48,6 +48,11 @@
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
       '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 ' +
       '7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" /></svg>',
+
+    likesFilled:
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+      '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 ' +
+      '7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" /></svg>',
   };
 
   /* Escape user text so it can never break the card markup. */
@@ -98,8 +103,10 @@
       escapeHtml(post.comments) +
       '</span>' +
       '</button>' +
-      '<button class="action likes" type="button">' +
-      ICONS.likes +
+      '<button class="action likes' +
+      (post.liked ? ' is-liked' : '') +
+      '" type="button">' +
+      (post.liked ? ICONS.likesFilled : ICONS.likes) +
       '<span>' +
       escapeHtml(post.likes) +
       '</span>' +
@@ -177,6 +184,28 @@
     } else {
       feed.appendChild(card);
     }
+
+    slideExistingDown(existing, firstTops);
+
+    return card;
+  }
+
+  /* Insert a new post directly below an existing card (threaded reply). The
+     cards underneath still glide down, and the new card tweens in. */
+  function insertPostAfter(post, anchor) {
+    var feed = document.querySelector('.activity-feed');
+    if (!feed || !anchor) return null;
+
+    var existing = Array.prototype.slice.call(
+      feed.querySelectorAll('.activity-entry')
+    );
+    var firstTops = existing.map(function (node) {
+      return node.getBoundingClientRect().top;
+    });
+
+    var card = createCard(post);
+    card.classList.add('tween-in');
+    anchor.insertAdjacentElement('afterend', card);
 
     slideExistingDown(existing, firstTops);
 
@@ -316,39 +345,46 @@
   /* ------------------------------------------------------------------ */
 
   var MD_TOOLS = [
-    'B',
-    'I',
-    'U',
-    'S',
-    'Link',
-    'Image',
-    'List',
-    'Quote',
-    'Code',
+    { label: 'B', title: 'Bold' },
+    { label: 'I', title: 'Italic' },
+    { label: 'U', title: 'Underline' },
+    { label: 'S', title: 'Strikethrough' },
+    { label: 'Link', title: 'Insert link' },
+    { label: 'Image', title: 'Insert image' },
+    { label: 'Quote', title: 'Quote' },
+    { label: 'Code', title: 'Code' },
+    { label: 'List', title: 'Bullet list' },
+    { label: '1.', title: 'Ordered list' },
+    { label: 'H', title: 'Heading' },
+    { label: 'Spoiler', title: 'Spoiler' },
+    { label: 'Video', title: 'Video' },
+    { label: 'Emoji', title: 'Emoji' },
+    { label: 'More', title: 'More' },
   ];
 
   var RTE_HTML =
+    '<div class="input">' +
+    '<div class="el-textarea">' +
     '<div class="markdown-editor">' +
     MD_TOOLS.map(function (tool) {
-      return '<button class="md-tool" type="button">' + tool + '</button>';
+      return (
+        '<div class="md-tool" title="' +
+        tool.title +
+        '">' +
+        tool.label +
+        '</div>'
+      );
     }).join('') +
     '</div>' +
+    '<a class="avatar" style="background-image: url(\'../assets/photon-current.png\')"></a>' +
+    '<a class="name">Photon</a>' +
     '<textarea class="el-textarea__inner" placeholder="Write a reply..."></textarea>' +
-    '<div class="preview">' +
-    '<div class="preview-label">Preview:</div>' +
-    '<div class="preview-card">' +
-    '<div class="avatar"><img src="../assets/photon-current.png" alt="Photon" /></div>' +
-    '<div class="preview-body">' +
-    '<div class="preview-name">Photon</div>' +
-    '<div class="preview-text"></div>' +
     '</div>' +
-    '</div>' +
-    '</div>' +
-    '<div class="rte-footer">' +
-    '<span class="rte-guidelines">Please read the site guidelines before posting</span>' +
-    '<div class="rte-actions">' +
-    '<button class="rte-cancel" type="button">Cancel</button>' +
-    '<button class="rte-publish" type="button">Publish</button>' +
+    '<div class="markdown"><p class="preview-text"></p></div>' +
+    '<div class="rules-notice">Please read the site guidelines before posting</div>' +
+    '<div class="actions">' +
+    '<button class="button cancel" type="button">Cancel</button>' +
+    '<button class="button publish" type="button">Publish</button>' +
     '</div>' +
     '</div>';
 
@@ -374,8 +410,8 @@
 
     var textarea = editor.querySelector('.el-textarea__inner');
     var previewText = editor.querySelector('.preview-text');
-    var publishButton = editor.querySelector('.rte-publish');
-    var cancelButton = editor.querySelector('.rte-cancel');
+    var publishButton = editor.querySelector('.button.publish');
+    var cancelButton = editor.querySelector('.button.cancel');
 
     var cancelled = false;
     var timer = null;
@@ -394,14 +430,30 @@
       cancelled = true;
       closeEditor();
 
-      prependPost({
-        username: 'Photon',
-        avatarUrl: PHOTON_AVATAR,
-        text: REPLY_TEXT,
-        timestamp: 'Just now',
-        likes: 0,
-        comments: 0,
-      });
+      /* Thread the reply directly beneath the post being replied to. */
+      var replyCard = insertPostAfter(
+        {
+          username: 'Photon',
+          avatarUrl: PHOTON_AVATAR,
+          text: REPLY_TEXT,
+          timestamp: 'just now',
+          likes: 1,
+          comments: 0,
+          liked: true,
+        },
+        card
+      );
+
+      if (!replyCard) return;
+
+      /* Indent it to nest under the parent… */
+      replyCard.classList.add('threaded-reply');
+
+      /* …and drop a cosmetic "Write a reply..." box right below it. */
+      var replyBox = document.createElement('div');
+      replyBox.className = 'threaded-reply-box';
+      replyBox.textContent = 'Write a reply...';
+      replyCard.insertAdjacentElement('afterend', replyBox);
     }
 
     cancelButton.addEventListener('click', cancel);
