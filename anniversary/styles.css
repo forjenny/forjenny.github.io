@@ -517,6 +517,29 @@ body {
   white-space: pre-wrap;
 }
 
+/* "media" posts — centered header, full-width image, centered body */
+.activity-entry .media-header {
+  margin: 16px 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-style: italic;
+  text-align: center;
+  color: rgb(var(--color-text));
+}
+
+.activity-entry .media-image {
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 4px;
+}
+
+.activity-entry .media-body {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  text-align: center;
+  color: rgb(var(--color-text));
+}
+
 .activity-entry .actions {
   display: flex;
   justify-content: flex-end;

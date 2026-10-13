@@ -52,28 +52,33 @@ const initialPosts = [
 
 const timelineEvents = [
   {
-    username: 'jenny',
-    avatarUrl: 'https://i.pravatar.cc/150?u=jenny',
-    text: 'rewatching madoka magica for the 4th time and it still hurts',
+    username: 'MrAnimeVeteran',
+    avatarUrl: '../assets/MrAnimeVeteran.jpg',
+    text: 'can i post yuri or yaoi content or art? will it be ok? will i be judged?',
+    timestamp: 'a few seconds ago',
+    likes: 8,
+    comments: 8,
+  },
+  {
+    username: 'Fredomnom',
+    avatarUrl: '../assets/Fredomnom.png',
+    text: `Me playing The last of us part I: Ohhh there's a photomode!
+*game crashes*
+Also me: ohh... there's a photo...mode`,
     timestamp: 'a few seconds ago',
     likes: 5,
     comments: 0,
   },
   {
-    username: 'maria',
-    avatarUrl: 'https://i.pravatar.cc/150?u=maria',
-    text: 'café con leche and a good novel, perfect afternoon',
-    timestamp: 'a few seconds ago',
-    likes: 9,
-    comments: 2,
-  },
-  {
-    username: 'nina',
-    avatarUrl: 'https://i.pravatar.cc/150?u=nina',
-    text: 'shipped the new build, going to sleep for a week',
-    timestamp: 'a few seconds ago',
-    likes: 14,
-    comments: 4,
+    username: 'Ambiverse',
+    avatarUrl: '../assets/Ambiverse.png',
+    postType: 'media',
+    headerText: 'I FINALLY GOT JINGRAN AFTER 140 CONVENES!!!! T^T',
+    imageUrl: '../assets/jingran.jpg',
+    text: 'I really wish when we convened a character that the weapon would come along with it, but oh well at least in our up coming Ananta Game we wont even need to gacha pull for characters, yayyy, looking forward to it!!',
+    timestamp: '3 weeks ago',
+    likes: 33,
+    comments: 6,
   },
 ];
 

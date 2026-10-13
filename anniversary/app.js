@@ -72,6 +72,34 @@
     return '<span class="count">' + escapeHtml(count) + '</span>';
   }
 
+  /* Render a post's body — the default markdown paragraph, or (for a "media"
+     post) a centered bold header, a full-width image and a centered body. */
+  function buildPostBody(post) {
+    if (post.postType === 'media') {
+      return (
+        '<div class="text">' +
+        '<div class="media-header">' +
+        escapeHtml(post.headerText) +
+        '</div>' +
+        '<img class="media-image" src="' +
+        escapeHtml(post.imageUrl) +
+        '" alt="" loading="lazy" />' +
+        '<div class="media-body">' +
+        escapeHtml(post.text) +
+        '</div>' +
+        '</div>'
+      );
+    }
+
+    return (
+      '<div class="text">' +
+      '<div class="activity-markdown"><p>' +
+      escapeHtml(post.text) +
+      '</p></div>' +
+      '</div>'
+    );
+  }
+
   /* Build one .activity-entry card. */
   function buildPost(post) {
     return (
@@ -104,11 +132,7 @@
       '</span>' +
       '</span>' +
       '</header>' +
-      '<div class="text">' +
-      '<div class="activity-markdown"><p>' +
-      escapeHtml(post.text) +
-      '</p></div>' +
-      '</div>' +
+      buildPostBody(post) +
       '<div class="actions">' +
       '<button class="action replies" type="button">' +
       countSpan(post.comments) +
