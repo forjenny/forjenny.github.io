@@ -133,6 +133,43 @@ const forumActivity = [
 ];
 
 /* ==========================================================================
+   Sidebar — Recent Reviews
+   ========================================================================== */
+
+const recentReviews = [
+  {
+    title: 'Suyo Webtoon-ui Na Kang-Rim',
+    username: 'Photon',
+    cover: '../assets/webtoon.jpg',
+    snippet:
+      'A story about someone who kept trying even when trying had stopped making sense.',
+    likes: 11,
+  },
+  {
+    title: 'Link Click',
+    username: 'Reeze',
+    cover: '../assets/linkclick.jpg',
+    snippet: 'The gateway for the chinese industry',
+    likes: 22,
+  },
+  {
+    title: '2.5 Dimensional Seduction',
+    username: 'Photon',
+    cover: '../assets/25dim.jpg',
+    snippet:
+      'A beautiful look at finding your true self through the hobbies you love the most.',
+    likes: 25,
+  },
+  {
+    title: "Scum's Wish",
+    username: 'Reeze',
+    cover: '../assets/scum.jpg',
+    snippet: 'The ugly side of a lovestory',
+    likes: 55,
+  },
+];
+
+/* ==========================================================================
    AniList — user IDs (replace these placeholders with our real IDs).
    ========================================================================== */
 

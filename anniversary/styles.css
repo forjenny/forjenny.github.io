@@ -1382,6 +1382,91 @@ body {
   white-space: nowrap;
 }
 
+/* --------------------------------------------------------------------------
+   Sidebar — Recent Reviews
+   -------------------------------------------------------------------------- */
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.review-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgb(var(--color-foreground));
+  border-radius: 4px;
+}
+
+.review-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 4px 4px 0 0;
+}
+
+.review-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 10px 12px;
+}
+
+.review-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: rgb(var(--color-text));
+}
+
+.review-accent {
+  color: rgb(var(--color-blue));
+}
+
+.review-snippet {
+  display: -webkit-box;
+  margin-top: 6px;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-size: 1.1rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: rgb(var(--color-text-lighter));
+}
+
+.review-meta {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.review-likes {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: rgb(var(--color-text-lighter));
+}
+
+.review-likes svg {
+  flex: none;
+  width: 12px;
+  height: 12px;
+}
+
+/* nudge the digits down so they sit level with the thumbs-up */
+.review-likes-count {
+  position: relative;
+  top: 1px;
+}
+
 /* ==========================================================================
    Accessibility utilities
    ========================================================================== */
@@ -1494,6 +1579,10 @@ button:focus-visible,
 
   .section-title {
     font-size: 1.4rem;
+  }
+
+  .review-grid {
+    grid-template-columns: 1fr;
   }
 
   .placeholder h1 {
