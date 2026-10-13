@@ -221,9 +221,115 @@
     return card;
   }
 
+  /* ------------------------------------------------------------------ */
+  /* Narrative session flag                                              */
+  /* ------------------------------------------------------------------ */
+
+  function narrativePlayed() {
+    try {
+      return sessionStorage.getItem('narrativePlayed') === 'true';
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function markNarrativePlayed() {
+    try {
+      sessionStorage.setItem('narrativePlayed', 'true');
+    } catch (error) {
+      /* private mode / storage disabled — just play it every time */
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Photon's threaded reply                                             */
+  /* ------------------------------------------------------------------ */
+
+  /* Build the "thread" under a post: Photon's reply card + the cosmetic
+     "Write a reply..." box, then graduate the reply button to a toggle.
+     `animate` runs the FLIP slide + tween (used by the live publish flow). */
+  function attachReplyThread(card, animate) {
+    if (!card || card._replyThread) return;
+
+    var replyCard = createCard({
+      username: 'Photon',
+      avatarUrl: PHOTON_AVATAR,
+      text: REPLY_TEXT,
+      timestamp: 'just now',
+      likes: 0,
+      comments: 0,
+    });
+    replyCard.classList.add('threaded-reply');
+    if (animate) replyCard.classList.add('tween-in');
+
+    var replyBox = document.createElement('div');
+    replyBox.className = 'threaded-reply-box';
+    replyBox.textContent = 'Write a reply...';
+
+    var thread = document.createElement('div');
+    thread.className = 'reply-thread';
+    thread.appendChild(replyCard);
+    thread.appendChild(replyBox);
+
+    if (animate) {
+      var feed = document.querySelector('.activity-feed');
+      var existing = feed
+        ? Array.prototype.slice.call(feed.querySelectorAll('.activity-entry'))
+        : [];
+      var firstTops = existing.map(function (node) {
+        return node.getBoundingClientRect().top;
+      });
+
+      card.insertAdjacentElement('afterend', thread);
+      slideExistingDown(existing, firstTops);
+    } else {
+      card.insertAdjacentElement('afterend', thread);
+    }
+
+    /* Keep a reference so the reply button can toggle the whole thread. */
+    card._replyThread = thread;
+
+    /* The reply button graduates from "glowing" to a collapse/expand toggle. */
+    card.dataset.replyState = 'toggle';
+    card.dataset.replyCollapsed = 'false';
+
+    var replyButton = card.querySelector('.action.replies');
+    if (replyButton) {
+      replyButton.classList.remove('glow-reply');
+      replyButton.setAttribute('title', 'Toggle replies');
+      replyButton.setAttribute('aria-label', 'Toggle replies');
+
+      /* this post gained a reply — bump its reply count by one */
+      var replyCount = replyButton.querySelector('.count');
+      if (replyCount) {
+        replyCount.textContent = (parseInt(replyCount.textContent, 10) || 0) + 1;
+      } else {
+        replyCount = document.createElement('span');
+        replyCount.className = 'count';
+        replyCount.textContent = '1';
+        replyButton.insertBefore(replyCount, replyButton.firstChild);
+      }
+    }
+  }
+
+  /* Jump straight to the end of the story (used for repeat visits). */
+  function renderFinalState() {
+    var card = prependPost(reezeSpecialPost);
+    if (!card) return;
+
+    initReezeReply(card);
+    attachReplyThread(card, false);
+  }
+
   /* Stream the timeline: 3 posts one at a time, then Reeze's special post.
-     Two seconds after Reeze's post lands, her reply button starts glowing. */
+     Two seconds after Reeze's post lands, her reply button starts glowing.
+     Runs once per tab session — afterwards the final state is shown directly. */
   function startTimeline() {
+    if (narrativePlayed()) {
+      renderFinalState();
+      return;
+    }
+
     var elapsed = 0;
 
     timelineEvents.forEach(function (post) {
@@ -247,6 +353,9 @@
         var replyButton = card.querySelector('.action.replies');
         if (replyButton) replyButton.classList.add('glow-reply');
       }, GLOW_DELAY_MS);
+
+      /* the story has played out — remember it for the rest of the session */
+      markNarrativePlayed();
     }, elapsed + FINAL_PAUSE_MS);
   }
 
@@ -408,62 +517,8 @@
       cancelled = true;
       closeEditor();
 
-      /* Build the reply as a threaded card + cosmetic box inside a wrapper. */
-      var replyCard = createCard({
-        username: 'Photon',
-        avatarUrl: PHOTON_AVATAR,
-        text: REPLY_TEXT,
-        timestamp: 'just now',
-        likes: 0,
-        comments: 0,
-      });
-      replyCard.classList.add('tween-in', 'threaded-reply');
-
-      var replyBox = document.createElement('div');
-      replyBox.className = 'threaded-reply-box';
-      replyBox.textContent = 'Write a reply...';
-
-      var thread = document.createElement('div');
-      thread.className = 'reply-thread';
-      thread.appendChild(replyCard);
-      thread.appendChild(replyBox);
-
-      /* FLIP: slide the cards below Reeze's post down, then insert the thread. */
-      var feed = document.querySelector('.activity-feed');
-      var existing = feed
-        ? Array.prototype.slice.call(feed.querySelectorAll('.activity-entry'))
-        : [];
-      var firstTops = existing.map(function (node) {
-        return node.getBoundingClientRect().top;
-      });
-
-      card.insertAdjacentElement('afterend', thread);
-      slideExistingDown(existing, firstTops);
-
-      /* Keep a reference so the reply button can toggle the whole thread. */
-      card._replyThread = thread;
-
-      /* The reply button graduates from "glowing" to a collapse/expand toggle. */
-      card.dataset.replyState = 'toggle';
-      card.dataset.replyCollapsed = 'false';
-
-      var replyButton = card.querySelector('.action.replies');
-      if (replyButton) {
-        replyButton.classList.remove('glow-reply');
-        replyButton.setAttribute('title', 'Toggle replies');
-        replyButton.setAttribute('aria-label', 'Toggle replies');
-
-        /* this post gained a reply — bump its reply count by one */
-        var replyCount = replyButton.querySelector('.count');
-        if (replyCount) {
-          replyCount.textContent = (parseInt(replyCount.textContent, 10) || 0) + 1;
-        } else {
-          replyCount = document.createElement('span');
-          replyCount.className = 'count';
-          replyCount.textContent = '1';
-          replyButton.insertBefore(replyCount, replyButton.firstChild);
-        }
-      }
+      attachReplyThread(card, true);
+      markNarrativePlayed();
     }
 
     cancelButton.addEventListener('click', cancel);
