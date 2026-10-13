@@ -454,14 +454,14 @@ body {
 
 .activity-entry .header .avatar {
   flex: none;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border-radius: 3px;
 }
 
 .activity-entry .name {
-  font-size: 1.4rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 400;
   color: rgb(var(--color-blue));
 }
 
