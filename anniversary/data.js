@@ -105,6 +105,7 @@ const forumActivity = [
     replyTime: '3 weeks ago',
     category: 'misc',
     categoryColor: 'rgb(121, 85, 72)',
+    url: 'https://anilist.co/forum/thread/91311',
   },
   {
     title: 'Assume one thing about the user above you',
@@ -116,6 +117,7 @@ const forumActivity = [
     replyTime: '21 minutes ago',
     category: 'forum games',
     categoryColor: 'rgb(var(--color-orange))',
+    url: 'https://anilist.co/forum/thread/26686',
   },
   {
     title: 'Anime that have character dynamics like Zero two and Hiro?',
@@ -129,6 +131,7 @@ const forumActivity = [
       { label: 'anime', color: '#02a9ff' },
       { label: 'recommendations', color: '#b052c9' },
     ],
+    url: 'https://anilist.co/forum/thread/39121',
   },
 ];
 
@@ -144,6 +147,7 @@ const recentReviews = [
     snippet:
       'A story about someone who kept trying even when trying had stopped making sense.',
     likes: 11,
+    url: 'https://anilist.co/review/31671',
   },
   {
     title: 'Link Click',
@@ -151,6 +155,7 @@ const recentReviews = [
     cover: '../assets/linkclick.jpg',
     snippet: 'The gateway for the chinese industry',
     likes: 22,
+    url: 'https://anilist.co/review/14084',
   },
   {
     title: '2.5 Dimensional Seduction',
@@ -159,6 +164,7 @@ const recentReviews = [
     snippet:
       'A beautiful look at finding your true self through the hobbies you love the most.',
     likes: 25,
+    url: 'https://anilist.co/review/27244',
   },
   {
     title: "Scum's Wish",
@@ -166,6 +172,7 @@ const recentReviews = [
     cover: '../assets/scum.jpg',
     snippet: 'The ugly side of a lovestory',
     likes: 55,
+    url: 'https://anilist.co/review/11423',
   },
 ];
 

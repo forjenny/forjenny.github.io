@@ -971,7 +971,13 @@
       '<div class="forum-card">' +
       '<div class="forum-card-top">' +
       '<div class="forum-title">' +
-      escapeHtml(item.title) +
+      (item.url
+        ? '<a class="forum-title-link" href="' +
+          escapeHtml(item.url) +
+          '" target="_blank" rel="noopener noreferrer">' +
+          escapeHtml(item.title) +
+          '</a>'
+        : escapeHtml(item.title)) +
       '</div>' +
       '<div class="forum-stats">' +
       '<span class="forum-stat">' +
@@ -1022,6 +1028,13 @@
   function buildReviewCard(item) {
     return (
       '<article class="review-card">' +
+      '<a class="review-link" href="' +
+      escapeHtml(item.url) +
+      '" target="_blank" rel="noopener noreferrer" aria-label="Review of ' +
+      escapeHtml(item.title) +
+      ' by ' +
+      escapeHtml(item.username) +
+      ' on AniList (opens in a new tab)">' +
       '<img class="review-cover" src="' +
       escapeHtml(item.cover) +
       '" alt="Cover of ' +
@@ -1045,6 +1058,7 @@
       '</span>' +
       '</div>' +
       '</div>' +
+      '</a>' +
       '</article>'
     );
   }

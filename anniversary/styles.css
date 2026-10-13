@@ -1292,6 +1292,16 @@ body {
   color: rgb(var(--color-text));
 }
 
+.forum-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.forum-title-link:hover,
+.forum-title-link:focus-visible {
+  color: rgb(var(--color-blue));
+}
+
 .forum-stats {
   display: flex;
   flex: 0 0 auto;
@@ -1399,6 +1409,19 @@ body {
   overflow: hidden;
   background-color: rgb(var(--color-foreground));
   border-radius: 4px;
+}
+
+.review-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.review-link:hover .review-cover,
+.review-link:focus-visible .review-cover {
+  opacity: 0.85;
 }
 
 .review-cover {
