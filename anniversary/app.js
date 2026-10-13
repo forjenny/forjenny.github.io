@@ -109,6 +109,20 @@
       );
     }
 
+    /* "centered" posts: centered text with a centered media item below it. */
+    if (post.postType === 'centered') {
+      return (
+        '<div class="text">' +
+        '<div class="media-body">' +
+        escapeHtml(post.text) +
+        '</div>' +
+        '<img class="media-gif" src="' +
+        escapeHtml(post.imageUrl) +
+        '" alt="" loading="lazy" />' +
+        '</div>'
+      );
+    }
+
     return (
       '<div class="text">' +
       '<div class="activity-markdown"><p>' +

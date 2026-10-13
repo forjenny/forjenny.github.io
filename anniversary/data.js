@@ -43,6 +43,41 @@ Also me: ohh... there's a photo...mode`,
     likes: 106,
     comments: 5,
   },
+  {
+    username: 'Purgaytory',
+    avatarUrl: '../assets/Purgaytory.jpg',
+    text: "Should I wait for the Spanish and English dub or watch them in Japanese? I can't decide.",
+    timestamp: 'a few seconds ago',
+    likes: 2,
+    comments: 1,
+  },
+  {
+    username: 'estreallita',
+    avatarUrl: '../assets/estreallita.jpg',
+    text: 'I love Studio Ghibli so much, recently rewatched a ton of the movies and the animation and art style is so mesmerizing and perfect the way they manage to make each movie feel so special even with the same art style is so mwa chefs kiss ? Personal fave is Spirited away',
+    timestamp: 'a few seconds ago',
+    likes: 4,
+    comments: 0,
+  },
+  {
+    username: 'HatsuneMiku',
+    avatarUrl: '../assets/HatsuneMiku.png',
+    text: `This is gonna be the hardest post I'll be ever making.
+I've been hiding the truth from y'all. Im not actually hatsune miku. im her cousin, tatsune kiku.`,
+    timestamp: 'a few seconds ago',
+    likes: 20,
+    comments: 5,
+  },
+  {
+    username: 'Photon',
+    avatarUrl: '../assets/photon-current.png',
+    postType: 'centered',
+    text: 'birdbrain is also living rent-free in my head',
+    imageUrl: '../assets/birdbrain.gif',
+    timestamp: 'a few seconds ago',
+    likes: 17,
+    comments: 0,
+  },
 ];
 
 /* Reeze's special post — lands at the very top, last in the timeline. */
