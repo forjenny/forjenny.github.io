@@ -69,7 +69,7 @@ const forumActivity = [
     replierAvatar: '../assets/photon-current.png',
     replyTime: '3 weeks ago',
     category: 'misc',
-    categoryColor: '#2596be',
+    categoryColor: 'rgb(121, 85, 72)',
   },
   {
     title: 'Assume one thing about the user above you',
