@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A little flipbook story of how we got here.">
 <title>how we got here 🩷</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Pacifico&display=swap" rel="stylesheet">
 <style>
@@ -200,7 +201,6 @@
     font-size: 0.75rem;
     color: var(--text-soft);
     font-weight: 700;
-    opacity: 0.6;
   }
 
   /* ── image area ── */
@@ -237,7 +237,6 @@
     font-size: 0.8rem;
     color: var(--text-soft);
     font-weight: 700;
-    opacity: 0.6;
     text-align: center;
   }
 
@@ -293,29 +292,41 @@
     z-index: 10;
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 0;
     padding: 1rem 0 0.5rem;
     flex-wrap: wrap;
   }
 
   .dot {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .dot::before {
+    content: '';
     width: 10px;
     height: 10px;
     border-radius: 50%;
     border: 2px solid var(--pink);
     background: transparent;
-    cursor: pointer;
     transition: background 0.2s, transform 0.2s;
-    flex-shrink: 0;
   }
 
-  .dot.active {
+  .dot.active::before {
     background: var(--pink-dark);
     border-color: var(--pink-dark);
     transform: scale(1.3);
   }
 
-  .dot:hover { background: var(--pink-mid); }
+  .dot:hover::before { background: var(--pink-mid); }
 
   /* ── bottom counter ── */
   .counter {
@@ -357,7 +368,6 @@
     text-align: center;
     font-size: 0.72rem;
     color: var(--text-soft);
-    opacity: 0.6;
     padding-bottom: 0.5rem;
   }
 
@@ -699,7 +709,7 @@
 
   @media (max-width: 500px) {
     .sticker { display: none; }
-    .nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+    .nav-btn { width: 44px; height: 44px; font-size: 1.2rem; }
     .book { margin: 0 0.5rem; }
   }
 
@@ -746,9 +756,52 @@
       font-size: 0.82rem;
     }
   }
+
+  /* ── accessibility: media, focus, skip link, reduced motion ── */
+  img { max-width: 100%; }
+
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--pink-dark);
+    outline-offset: 2px;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 12px;
+    z-index: 200;
+    padding: 10px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: white;
+    text-decoration: none;
+    background: var(--pink-dark);
+    border-radius: 999px;
+    transition: top 0.15s ease;
+  }
+
+  .skip-link:focus { top: 12px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    #confetti-canvas { display: none !important; }
+  }
 </style>
 </head>
 <body>
+
+<a class="skip-link" href="#mainContent">Skip to story</a>
 
 <a class="for-you-btn" href="anniversary/index.html">for you</a>
 
@@ -756,25 +809,26 @@
   <source src="assets/song.mp3" type="audio/mpeg">
 </audio>
 <div class="music-hint" id="musicHint"><span>click me!</span></div>
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Toggle music">🎵</button>
 
 <!-- ── chat panel ── -->
-<div class="chat-panel" id="chatPanel">
+<aside class="chat-panel" id="chatPanel" aria-label="Chat with Photon">
   <div class="chat-panel-header">
     <div class="chat-panel-header-avatar">
-      <img src="assets/pic.png" alt="Photon">
+      <img src="assets/pic.png" alt="">
     </div>
     <div class="chat-panel-header-info">
       <div class="chat-panel-header-name">Photon</div>
       <div class="chat-panel-header-status">online</div>
     </div>
   </div>
-  <div class="chat-messages" id="chatMessages"></div>
-</div>
-<button class="chat-toggle" id="chatToggle" onclick="toggleChat()" title="toggle chat">‹</button>
+  <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Messages"></div>
+</aside>
+<button class="chat-toggle" id="chatToggle" onclick="toggleChat()" title="toggle chat"
+        aria-label="Toggle chat panel" aria-controls="chatPanel" aria-expanded="true">‹</button>
 
 <!-- ── main content ── -->
-<div class="main-content" id="mainContent">
+<main class="main-content" id="mainContent">
 
 <!-- decorative stickers -->
 <div class="sticker s1">🌸</div>
@@ -791,36 +845,38 @@
 </header>
 
 <div class="flipbook-wrap">
-  <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>‹</button>
+  <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled aria-label="Previous page">‹</button>
 
   <div class="book">
-    <div class="page-card" id="pageCard">
+    <article class="page-card" id="pageCard">
       <div class="ribbon" id="ribbonLabel">cover</div>
       <div class="tape"></div>
 
       <div class="img-frame" id="imgFrame">
         <!-- Replace the placeholder below with: <img src="your-image.jpg" alt="description"> -->
-        <div class="img-placeholder-icon">🎨</div>
+        <div class="img-placeholder-icon" aria-hidden="true">🎨</div>
         <div class="img-placeholder-text">your drawing goes here</div>
       </div>
 
       <div class="caption-wrap">
-        <div class="caption-label">✦ caption ✦</div>
-        <div class="caption-text" id="captionText">how we got here</div>
+        <div class="caption-label" aria-hidden="true">✦ caption ✦</div>
+        <div class="caption-text" id="captionText" aria-live="polite">how we got here</div>
       </div>
 
       <div class="page-num" id="pageNum">✦</div>
-    </div>
+    </article>
   </div>
 
-  <button class="nav-btn" id="nextBtn" onclick="changePage(1)">›</button>
+  <button class="nav-btn" id="nextBtn" onclick="changePage(1)" aria-label="Next page">›</button>
 </div>
 
-<div class="dots-row" id="dotsRow"></div>
-<div class="counter" id="counter">cover · 21 pages</div>
-<div class="key-hint">use ← → arrow keys to flip pages</div>
+<nav class="dots-row" id="dotsRow" aria-label="Go to page"></nav>
+<footer>
+  <div class="counter" id="counter">cover · 21 pages</div>
+  <div class="key-hint">use ← → arrow keys to flip pages</div>
+</footer>
 
-</div><!-- end .main-content -->
+</main><!-- end .main-content -->
 
 <script>
 const pages = [
@@ -908,9 +964,12 @@ const dotsRow = document.getElementById('dotsRow');
 
 function buildDots() {
   dotsRow.innerHTML = '';
-  pages.forEach((_, i) => {
-    const d = document.createElement('div');
+  pages.forEach((p, i) => {
+    const d = document.createElement('button');
+    d.type = 'button';
     d.className = 'dot' + (i === current ? ' active' : '');
+    d.setAttribute('aria-label', p.label);
+    if (i === current) d.setAttribute('aria-current', 'true');
     d.onclick = () => jumpTo(i);
     dotsRow.appendChild(d);
   });
@@ -975,6 +1034,10 @@ function changePage(dir) {
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') changePage(1);
   if (e.key === 'ArrowLeft') changePage(-1);
+  if (e.key === 'Escape') {
+    const panel = document.getElementById('chatPanel');
+    if (!panel.classList.contains('collapsed')) toggleChat();
+  }
 });
 
 // ── confetti ──
@@ -1115,7 +1178,7 @@ function renderNextMessage() {
   const msgEl = document.createElement('div');
   msgEl.className = 'chat-msg';
   msgEl.innerHTML = `
-    <div class="chat-avatar"><img src="assets/pic.png" alt="Photon"></div>
+    <div class="chat-avatar"><img src="assets/pic.png" alt=""></div>
     <div class="chat-msg-body">
       <div class="chat-meta">
         <span class="chat-name">${msg.name}</span>
@@ -1135,7 +1198,7 @@ function renderNextMessage() {
   if (chatIndex < chatMessages.length) {
     const btnWrap = document.createElement('div');
     btnWrap.className = 'chat-next-btn';
-    btnWrap.innerHTML = `<button onclick="renderNextMessage()" title="next message">↓</button>`;
+    btnWrap.innerHTML = `<button onclick="renderNextMessage()" title="next message" aria-label="Next message">↓</button>`;
     chatContainer.appendChild(btnWrap);
   }
 
@@ -1148,6 +1211,7 @@ function toggleChat() {
   const main = document.getElementById('mainContent');
   const isCollapsed = panel.classList.toggle('collapsed');
   toggle.textContent = isCollapsed ? '›' : '‹';
+  toggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
   toggle.classList.toggle('collapsed', isCollapsed);
   main.classList.toggle('expanded', isCollapsed);
 }
