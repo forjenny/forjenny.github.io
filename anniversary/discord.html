@@ -137,6 +137,7 @@
       </svg>
     </div>
     <h1>You found it! 🎉</h1>
+    <div class="spoiler-mount" id="spoilerSlot"></div>
     <p>This is where our story began.</p>
     <p>I'm a little embarrassed by how long I spent copying every little detail of this place, but it felt right.</p>
     <p>A random corner of the internet full of anime lists and half-finished series, and somehow it's where I met you.</p>
@@ -146,5 +147,13 @@
     <a class="easter-egg-button" href="index.html">Back to Home</a>
   </main>
   <script src="nav.js"></script>
+  <script src="spoiler.js"></script>
+  <script>
+    document.getElementById('spoilerSlot').appendChild(
+      createSpoiler(
+        '<img src="../assets/studying.jpg" alt="A picture of us studying together" />'
+      )
+    );
+  </script>
 </body>
 </html>
