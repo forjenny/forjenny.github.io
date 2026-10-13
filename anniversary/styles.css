@@ -426,50 +426,80 @@ body {
    ========================================================================== */
 
 .activity-entry {
-  background-color: rgb(var(--color-foreground));
-  border-radius: 0.4rem;
+  border-radius: 4px;
   overflow: hidden;
 }
 
 .activity-entry .wrap {
   display: flex;
   flex-direction: column;
-  padding: 1.6rem;
+  padding: 20px;
+  background-color: rgb(var(--color-foreground));
+  border-radius: 4px;
 }
 
 .activity-entry .header {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.activity-entry .user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
 }
 
 .activity-entry .header .avatar {
   flex: none;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 3px;
 }
 
 .activity-entry .name {
   font-size: 1.4rem;
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 500;
   color: rgb(var(--color-blue));
 }
 
-.activity-entry .time {
+.activity-entry .time-wrap {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin-left: auto;
-  font-size: 1.2rem;
-  color: rgb(var(--color-text-lighter));
+  gap: 8px;
 }
 
-.activity-entry .time svg {
+.activity-entry .time-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.activity-entry .time-wrap:hover .time-icons {
+  opacity: 1;
+}
+
+.activity-entry .time-icon {
+  display: flex;
+  align-items: center;
+}
+
+.activity-entry .time-icon svg {
   flex: none;
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 12px;
+  height: 12px;
+  color: rgb(var(--color-text-light));
+}
+
+.activity-entry .time-text {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: rgb(var(--color-text-lighter));
 }
 
 .activity-entry .text {
@@ -477,42 +507,51 @@ body {
 }
 
 .activity-entry .activity-markdown {
-  padding: 10px 0;
+  margin-top: 12px;
+  margin-bottom: 12px;
   font-size: 1.4rem;
   line-height: 1.5;
+  color: rgb(var(--color-text));
+  overflow-wrap: break-word;
+  word-break: break-word;
   white-space: pre-wrap;
 }
 
 .activity-entry .actions {
   display: flex;
-  align-items: center;
   justify-content: flex-end;
-  gap: 1.6rem;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  margin-right: 0;
 }
 
 .activity-entry .action {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 1.3rem;
-  color: rgb(var(--color-text-lighter));
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  color: rgb(var(--color-text-light));
+  cursor: pointer;
   transition: color 0.15s ease;
 }
 
-.activity-entry .action:hover {
-  color: rgb(var(--color-white));
+/* the number always matches its button's colour */
+.activity-entry .action .count {
+  font-size: 1.2rem;
+  color: inherit;
 }
 
-/* Like button: default light text; red when liked; blue on hover only while
-   not liked. Inherits color down to both the heart icon and the count. */
+.activity-entry .action:hover {
+  color: rgb(var(--color-blue));
+}
+
+/* Like button: same base colour as the reply button; red when liked. */
 .activity-entry .action.likes {
-  color: rgb(var(--color-text-light));
   pointer-events: auto;
   cursor: pointer;
-}
-
-.activity-entry .action.likes:hover {
-  color: rgb(var(--color-blue));
 }
 
 .activity-entry .action.likes.liked {
@@ -524,8 +563,8 @@ body {
 }
 
 .activity-entry .action svg {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 14px;
+  height: 14px;
 }
 
 /* ==========================================================================
@@ -535,12 +574,7 @@ body {
 .activity-feed {
   display: flex;
   flex-direction: column;
-}
-
-/* Standard spacing below every post (works whether or not a reply thread,
-   hidden or visible, follows it). */
-.activity-feed > .activity-entry {
-  margin-bottom: 20px;
+  gap: 12px;
 }
 
 /* --------------------------------------------------------------------------

@@ -27,27 +27,32 @@
   /* Inline SVG icons (kept out of the HTML so cards can be built in JS). */
   var ICONS = {
     bell:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />' +
-      '<path d="M13.7 21a2 2 0 0 1-3.4 0" /></svg>',
+      '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bell" ' +
+      'role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" ' +
+      'class="svg-inline--fa fa-bell fa-w-14 fa-sm">' +
+      '<path fill="currentColor" d="M224 512c35.32 0 63.97-28.65 63.97-64H160.03c0 35.35 28.65 64 63.97 64zm215.39-149.71c-19.32-20.76-55.47-51.99-55.47-154.29 0-77.7-54.48-139.9-127.94-155.16V32c0-17.67-14.32-32-31.98-32s-31.98 14.33-31.98 32v20.84C118.56 68.1 64.08 130.3 64.08 208c0 102.3-36.15 133.53-55.47 154.29-6 6.45-8.66 14.16-8.61 21.71.11 16.4 12.98 32 32.1 32h383.8c19.12 0 32-15.6 32.1-32 .05-7.55-2.61-15.27-8.61-21.71z"></path>' +
+      '</svg>',
+
+    ellipsis:
+      '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-h" ' +
+      'role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" ' +
+      'class="svg-inline--fa fa-ellipsis-h fa-w-16 fa-sm">' +
+      '<path fill="currentColor" d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path>' +
+      '</svg>',
 
     replies:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.4 8.4 0 0 1-3.7-.8L3 21l1.9-5.3' +
-      'A8.4 8.4 0 0 1 4 11.5a8.4 8.4 0 0 1 8.4-8.4h.6a8.4 8.4 0 0 1 8 8z" /></svg>',
+      '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="comments" ' +
+      'role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" ' +
+      'class="svg-inline--fa fa-comments fa-w-18 fa-sm">' +
+      '<path fill="currentColor" d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z"></path>' +
+      '</svg>',
 
-    likes:
-      '<svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
-      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-      '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 ' +
-      '7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" /></svg>',
-
-    likesFilled:
-      '<svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
-      '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 ' +
-      '7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" /></svg>',
+    heart:
+      '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heart" ' +
+      'role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" ' +
+      'class="svg-inline--fa fa-heart fa-w-16 fa-sm heart-icon">' +
+      '<path fill="currentColor" d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path>' +
+      '</svg>',
   };
 
   /* Escape user text so it can never break the card markup. */
@@ -66,6 +71,7 @@
       '<article class="activity-entry">' +
       '<div class="wrap">' +
       '<header class="header">' +
+      '<span class="user-info">' +
       '<div class="avatar">' +
       '<img src="' +
       escapeHtml(post.avatarUrl) +
@@ -76,9 +82,17 @@
       '<span class="name">' +
       escapeHtml(post.username) +
       '</span>' +
-      '<span class="time">' +
+      '</span>' +
+      '<span class="time-wrap">' +
+      '<span class="time-icons">' +
+      '<span class="time-icon">' +
       ICONS.bell +
-      '<span>' +
+      '</span>' +
+      '<span class="time-icon">' +
+      ICONS.ellipsis +
+      '</span>' +
+      '</span>' +
+      '<span class="time-text">' +
       escapeHtml(post.timestamp) +
       '</span>' +
       '</span>' +
@@ -90,18 +104,18 @@
       '</div>' +
       '<div class="actions">' +
       '<button class="action replies" type="button">' +
-      ICONS.replies +
-      '<span>' +
+      '<span class="count">' +
       escapeHtml(post.comments) +
       '</span>' +
+      ICONS.replies +
       '</button>' +
       '<button class="action likes' +
       (post.liked ? ' liked' : '') +
       '" type="button">' +
-      (post.liked ? ICONS.likesFilled : ICONS.likes) +
       '<span class="count">' +
       escapeHtml(post.likes) +
       '</span>' +
+      ICONS.heart +
       '</button>' +
       '</div>' +
       '</div>' +
@@ -744,10 +758,6 @@
         var current = parseInt(countEl.textContent, 10) || 0;
         countEl.textContent = liked ? current + 1 : Math.max(0, current - 1);
       }
-
-      /* swap outline ↔ filled heart to match the state */
-      var icon = button.querySelector('.heart-icon');
-      if (icon) icon.outerHTML = liked ? ICONS.likesFilled : ICONS.likes;
     });
   }
 
