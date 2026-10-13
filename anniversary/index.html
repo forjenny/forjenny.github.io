@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AniList-style activity feed and progress panels for Reeze." />
   <title>Home &middot; AniList</title>
   <link rel="icon" type="image/svg+xml" href="../assets/icon.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="site-theme-dark">
-  <nav class="nav">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
     <div class="nav-wrap">
     <a class="logo" href="index.html" aria-label="Home">
-      <img src="../assets/icon.svg" alt="AniList" />
+      <img src="../assets/icon.svg" alt="" />
     </a>
 
-    <div class="links">
+    <div class="links" id="primary-links">
       <a class="link" href="index.html">Home</a>
       <a class="link" href="profile.html">Profile</a>
       <a class="link" href="animelist.html">Anime List</a>
@@ -24,6 +27,16 @@
     </div>
 
     <div class="right-cluster">
+      <button class="nav-toggle" type="button" aria-label="Open menu"
+              aria-expanded="false" aria-controls="primary-links">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+
       <button class="search" type="button" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -33,15 +46,18 @@
       </button>
 
       <div class="user-wrap">
-        <div class="avatar nav-avatar" role="img" aria-label="Photon"></div>
+        <button class="user-trigger" type="button" aria-haspopup="true"
+                aria-expanded="false" aria-controls="account-menu"
+                aria-label="Account menu">
+          <span class="avatar nav-avatar" role="img" aria-label="Photon"></span>
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
 
-        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true">
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
-
-        <div class="dropdown">
+        <div class="dropdown" id="account-menu">
           <div class="primary-links">
             <a class="primary-link" href="profile.html">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -113,31 +129,31 @@
     </div>
   </nav>
 
-  <main class="home">
-    <section class="home-center">
-      <div class="activity-feed">
+  <main class="home" id="main-content">
+    <section class="home-center" aria-label="Activity feed">
+      <div class="activity-feed" aria-live="polite" aria-relevant="additions">
         <div class="section-header">
-          <h2 class="section-title">Activity</h2>
+          <h1 class="section-title">Activity</h1>
 
-          <div class="feed-type-toggle">
+          <div class="feed-type-toggle" role="group" aria-label="Feed type">
             <div class="toggle-option">Following</div>
             <div class="toggle-option is-active">Global</div>
           </div>
         </div>
 
-        <div class="activity-edit el-textarea">
-          <textarea class="el-textarea__inner" rows="1"
+        <div class="activity-edit el-textarea" aria-hidden="true">
+          <textarea class="el-textarea__inner" rows="1" tabindex="-1"
                     placeholder="Write a status..."></textarea>
         </div>
       </div>
     </section>
 
-    <aside class="home-right">
+    <aside class="home-right" aria-label="Sidebar">
       <div class="announcement-banner">
         <div class="announcement-logo" aria-hidden="true"></div>
 
         <div class="announcement-body">
-          <h3 class="announcement-title">Site-wide performance issues</h3>
+          <h2 class="announcement-title">Site-wide performance issues</h2>
           <p class="announcement-text">
             We're currently struggling with performance issues caused by an
             extreme increase in public API traffic. See the linked announcement
@@ -149,19 +165,22 @@
                 aria-label="Dismiss announcement">X</button>
       </div>
 
-      <section>
-        <h3 class="list-preview-header">Anime in Progress</h3>
+      <section aria-label="Progress and activity">
+        <h2 class="list-preview-header">Anime in Progress</h2>
         <div class="list-preview"></div>
 
-        <h3 class="panel-header">Manga in Progress</h3>
+        <h2 class="panel-header">Manga in Progress</h2>
         <div class="list-preview" id="manga-progress-grid"></div>
 
-        <h3 class="panel-header">Forum Activity</h3>
+        <h2 class="panel-header">Forum Activity</h2>
         <div class="forum-activity-wrap"></div>
+
+        <p class="sr-only" role="status" id="grid-status"></p>
       </section>
     </aside>
   </main>
 
+  <script src="nav.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>

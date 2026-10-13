@@ -79,6 +79,17 @@
     return '<span class="count">' + escapeHtml(count) + '</span>';
   }
 
+  /* Accessible names for the icon+count action buttons. */
+  function repliesLabel(value) {
+    var count = Number(value) || 0;
+    return count > 0 ? 'Replies: ' + count : 'Replies';
+  }
+
+  function likesLabel(value) {
+    var count = Number(value) || 0;
+    return count > 0 ? 'Likes: ' + count : 'Likes';
+  }
+
   /* Render a post's body — the default markdown paragraph, or (for a "media"
      post) a centered bold header, a full-width image and a centered body. */
   function buildPostBody(post) {
@@ -117,9 +128,7 @@
       '<div class="avatar">' +
       '<img src="' +
       escapeHtml(post.avatarUrl) +
-      '" alt="' +
-      escapeHtml(post.username) +
-      '" loading="lazy" />' +
+      '" alt="" loading="lazy" />' +
       '</div>' +
       '<span class="name">' +
       escapeHtml(post.username) +
@@ -140,18 +149,22 @@
       '</span>' +
       '</header>' +
       buildPostBody(post) +
-      '<div class="actions">' +
-      '<button class="action replies" type="button">' +
+      '<footer class="actions">' +
+      '<button class="action replies" type="button" aria-label="' +
+      repliesLabel(post.comments) +
+      '">' +
       countSpan(post.comments) +
       ICONS.replies +
       '</button>' +
       '<button class="action likes' +
       (post.liked ? ' liked' : '') +
-      '" type="button">' +
+      '" type="button" aria-label="' +
+      likesLabel(post.likes) +
+      '">' +
       countSpan(post.likes) +
       ICONS.heart +
       '</button>' +
-      '</div>' +
+      '</footer>' +
       '</div>' +
       '</article>'
     );
@@ -571,6 +584,14 @@
     cancelButton.addEventListener('click', cancel);
     publishButton.addEventListener('click', publish);
 
+    /* Esc closes the editor (keyboard parity with the Cancel button). */
+    editor.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        cancel();
+      }
+    });
+
     /* After the editor appears, wait, then Photon "types" the reply. */
     setTimeout(function () {
       if (cancelled) return;
@@ -898,9 +919,14 @@
   async function initSidebarGrids() {
     var animeGrid = document.querySelector('.list-preview');
     var mangaGrid = document.querySelector('#manga-progress-grid');
+    var status = document.querySelector('#grid-status');
 
     if (animeGrid) animeGrid.addEventListener('click', handleGridClick);
     if (mangaGrid) mangaGrid.addEventListener('click', handleGridClick);
+
+    if (status) status.textContent = 'Loading favourites…';
+
+    var failed = false;
 
     var anime = [];
     try {
@@ -909,6 +935,7 @@
       if (window.console && console.warn) {
         console.warn('AniList anime favourites unavailable:', error);
       }
+      failed = true;
       anime = [];
     }
     renderAnimeInProgress(anime);
@@ -920,9 +947,16 @@
       if (window.console && console.warn) {
         console.warn('AniList manga favourites unavailable:', error);
       }
+      failed = true;
       manga = [];
     }
     renderMangaInProgress(manga);
+
+    if (status) {
+      status.textContent = failed
+        ? 'Some favourites could not be loaded.'
+        : 'Loaded ' + anime.length + ' anime and ' + manga.length + ' manga favourites.';
+    }
   }
 
   /* ------------------------------------------------------------------ */
@@ -944,6 +978,8 @@
       var current = countEl ? parseInt(countEl.textContent, 10) || 0 : 0;
       var next = liked ? current + 1 : Math.max(0, current - 1);
 
+      button.setAttribute('aria-label', likesLabel(next));
+
       if (next > 0) {
         if (!countEl) {
           countEl = document.createElement('span');
@@ -957,7 +993,7 @@
     });
   }
 
-  /* The feed starts empty — the cinematic timeline streams every post in. */
+  /* Initial render, then start the cinematic stream. */
   initLikeButtons();
   startTimeline();
   initSidebarGrids();

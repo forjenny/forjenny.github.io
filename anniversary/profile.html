@@ -8,13 +8,13 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="site-theme-dark">
-<nav class="nav">
+<nav class="nav" aria-label="Primary">
     <div class="nav-wrap">
     <a class="logo" href="index.html" aria-label="Home">
-      <img src="../assets/icon.svg" alt="AniList" />
+      <img src="../assets/icon.svg" alt="" />
     </a>
 
-    <div class="links">
+    <div class="links" id="primary-links">
       <a class="link" href="index.html">Home</a>
       <a class="link" href="profile.html">Profile</a>
       <a class="link" href="animelist.html">Anime List</a>
@@ -24,6 +24,16 @@
     </div>
 
     <div class="right-cluster">
+      <button class="nav-toggle" type="button" aria-label="Open menu"
+              aria-expanded="false" aria-controls="primary-links">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+
       <button class="search" type="button" aria-label="Search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -33,15 +43,18 @@
       </button>
 
       <div class="user-wrap">
-        <div class="avatar nav-avatar" role="img" aria-label="Photon"></div>
+        <button class="user-trigger" type="button" aria-haspopup="true"
+                aria-expanded="false" aria-controls="account-menu"
+                aria-label="Account menu">
+          <span class="avatar nav-avatar" role="img" aria-label="Photon"></span>
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
 
-        <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true">
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
-
-        <div class="dropdown">
+        <div class="dropdown" id="account-menu">
           <div class="primary-links">
             <a class="primary-link" href="profile.html">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -118,5 +131,6 @@
     <p class="placeholder-subtitle">Coming soon...</p>
     <a class="placeholder-link" href="index.html">&larr; Back to Home</a>
   </main>
+  <script src="nav.js"></script>
 </body>
 </html>
