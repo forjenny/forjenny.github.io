@@ -207,49 +207,6 @@
           </div>
         </section>
 
-        <section class="profile-section" id="statistics" aria-labelledby="statistics-heading">
-          <h2 class="profile-section-header" id="statistics-heading">Statistics</h2>
-
-          <div class="profile-stats">
-            <div class="profile-stat-rows">
-              <div class="profile-stat-row">
-                <div class="profile-stat-top">
-                  <span class="profile-stat-name">Anime</span>
-                  <span class="profile-stat-value">441</span>
-                </div>
-                <div class="profile-meter" role="img" aria-label="441 anime">
-                  <span class="profile-meter-bar" style="width: 82%"></span>
-                </div>
-              </div>
-
-              <div class="profile-stat-row">
-                <div class="profile-stat-top">
-                  <span class="profile-stat-name">Manga</span>
-                  <span class="profile-stat-value">388</span>
-                </div>
-                <div class="profile-meter" role="img" aria-label="388 manga">
-                  <span class="profile-meter-bar" style="width: 76%"></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="profile-stat-footer">
-              <div class="profile-stat-cell">
-                <span class="profile-stat-value">21.4</span>
-                <span class="profile-stat-label">Days Watched</span>
-              </div>
-              <div class="profile-stat-cell">
-                <span class="profile-stat-value">76.4</span>
-                <span class="profile-stat-label">Mean Score</span>
-              </div>
-              <div class="profile-stat-cell">
-                <span class="profile-stat-value">2579</span>
-                <span class="profile-stat-label">Episodes</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section class="profile-section" id="favorites" aria-labelledby="favorites-heading">
           <h2 class="profile-section-header" id="favorites-heading">Favorites</h2>
 
@@ -284,8 +241,82 @@
       </div>
 
       <div class="profile-col">
+        <section class="profile-section" id="statistics" aria-labelledby="statistics-heading">
+          <h2 class="profile-section-header" id="statistics-heading">Statistics</h2>
+
+          <div class="profile-stats">
+            <div class="profile-stat-box">
+              <div class="profile-stat-cells">
+                <div class="profile-stat-cell">
+                  <span class="profile-stat-value">370</span>
+                  <span class="profile-stat-label">Total Anime</span>
+                </div>
+                <div class="profile-stat-cell">
+                  <span class="profile-stat-value">136.7</span>
+                  <span class="profile-stat-label">Days Watched</span>
+                </div>
+                <div class="profile-stat-cell">
+                  <span class="profile-stat-value">71.4</span>
+                  <span class="profile-stat-label">Mean Score</span>
+                </div>
+              </div>
+
+              <div class="profile-stat-footer">
+                <div class="profile-stat-milestones" aria-hidden="true">
+                  <span>100</span>
+                  <span>150</span>
+                  <span>200</span>
+                </div>
+                <div class="profile-stat-bar" aria-hidden="true">
+                  <span class="profile-stat-fill" style="width: 36.7%"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-stat-box">
+              <div class="profile-stat-cells">
+                <div class="profile-stat-cell">
+                  <span class="profile-stat-value">349</span>
+                  <span class="profile-stat-label">Total Manga</span>
+                </div>
+                <div class="profile-stat-cell">
+                  <span class="profile-stat-value">19180</span>
+                  <span class="profile-stat-label">Chapters Read</span>
+                </div>
+                <div class="profile-stat-cell">
+                  <span class="profile-stat-value">76.1</span>
+                  <span class="profile-stat-label">Mean Score</span>
+                </div>
+              </div>
+
+              <div class="profile-stat-footer">
+                <div class="profile-stat-milestones" aria-hidden="true">
+                  <span>19000</span>
+                  <span>19500</span>
+                  <span>20000</span>
+                </div>
+                <div class="profile-stat-bar" aria-hidden="true">
+                  <span class="profile-stat-fill" style="width: 18%"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section class="profile-section profile-activity" id="activity" aria-labelledby="activity-heading">
-          <h2 class="profile-section-header" id="activity-heading">Recent Activity</h2>
+          <h2 class="profile-section-header profile-activity-header" id="activity-heading">
+            <span>Activity</span>
+            <span class="profile-activity-filter" aria-hidden="true">
+              Filter
+              <svg class="profile-activity-caret" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </span>
+          </h2>
+
+          <div class="profile-activity-composer" aria-hidden="true">Write a message...</div>
 
           <div class="activity-feed" id="reeze-feed" aria-busy="true">
             <p class="profile-feed-message">Loading activity…</p>
@@ -301,6 +332,7 @@
   </main>
 
   <script src="../../nav.js"></script>
+  <script src="markdown.js"></script>
   <script src="activity.js"></script>
 </body>
 </html>

@@ -68,6 +68,17 @@
     return REPLY_AVATAR;
   }
 
+  /* AniList-flavoured markdown (markdown.js). Falls back to escaped text. */
+  function markdown(text) {
+    if (
+      window.AniListMarkdown &&
+      typeof window.AniListMarkdown.render === 'function'
+    ) {
+      return window.AniListMarkdown.render(text);
+    }
+    return '<p>' + escapeHtml(text) + '</p>';
+  }
+
   function plural(value, unit) {
     return value + ' ' + unit + (value === 1 ? '' : 's') + ' ago';
   }
@@ -157,6 +168,7 @@
       '<span class="reply-name">' +
       escapeHtml(author) +
       '</span>' +
+      buildLikeButton(reply.likeCount, true) +
       '<time class="reply-time" datetime="' +
       isoDate(reply.createdAt) +
       '" title="' +
@@ -165,12 +177,9 @@
       timeAgo(reply.createdAt) +
       '</time>' +
       '</header>' +
-      '<p class="reply-text">' +
-      escapeHtml(reply.text) +
-      '</p>' +
-      '<footer class="actions">' +
-      buildLikeButton(reply.likeCount, true) +
-      '</footer>' +
+      '<div class="reply-text md-content">' +
+      markdown(reply.text) +
+      '</div>' +
       '</article>'
     );
   }
@@ -214,9 +223,9 @@
       '</span>' +
       '</header>' +
       '<div class="text">' +
-      '<div class="activity-markdown"><p>' +
-      escapeHtml(post.text) +
-      '</p></div>' +
+      '<div class="activity-markdown md-content">' +
+      markdown(post.text) +
+      '</div>' +
       '</div>' +
       '<footer class="actions">' +
       buildReplyControl(post, replyCount, repliesId) +
