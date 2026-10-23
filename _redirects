@@ -1,0 +1,19 @@
+# 301s from the old .html URLs to the clean directory URLs.
+# Used by Netlify / Cloudflare Pages. GitHub Pages ignores this file and
+# falls back to the client-side redirect stubs at the same old paths.
+
+/index.html                        /                                     301
+/anniversary/index.html            /anniversary/                         301
+
+/anniversary/profile.html          /anniversary/profile/                 301
+/anniversary/animelist.html        /anniversary/animelist/               301
+/anniversary/mangalist.html        /anniversary/mangalist/               301
+/anniversary/browse.html           /anniversary/browse/                  301
+/anniversary/forum.html            /anniversary/forum/                   301
+/anniversary/notifications.html    /anniversary/notifications/           301
+/anniversary/settings.html         /anniversary/settings/                301
+/anniversary/donate.html           /anniversary/donate/                  301
+/anniversary/apps.html             /anniversary/apps/                    301
+/anniversary/logout.html           /anniversary/logout/                  301
+/anniversary/discord.html          /anniversary/discord/                 301
+/anniversary/play.html             /anniversary/play/                    301

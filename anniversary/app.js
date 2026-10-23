@@ -319,24 +319,6 @@
     }
   }
 
-  // /* A browser refresh replays the story; navigating between the site's pages
-  //    (same session) does not. */
-  // function resetNarrativeOnReload() {
-  //   try {
-  //     var entries = performance.getEntriesByType('navigation');
-  //     var type =
-  //       entries && entries.length
-  //         ? entries[0].type
-  //         : performance.navigation && performance.navigation.type === 1
-  //         ? 'reload'
-  //         : 'navigate';
-
-  //     if (type === 'reload') sessionStorage.removeItem('narrativePlayed');
-  //   } catch (error) {
-  //     /* ignore */
-  //   }
-  // }
-
   /* ------------------------------------------------------------------ */
   /* Photon's threaded reply                                             */
   /* ------------------------------------------------------------------ */
@@ -1170,8 +1152,8 @@
   /* Background music                                                    */
   /* ------------------------------------------------------------------ */
 
-  /* Plays ss.mp3 (looped, 35%) only when arriving from the flipbook's
-     "for you" button, i.e. anniversary/index.html?music=ss */
+  /* Plays ss.mp3 (looped, 25%) only when arriving with ?music=ss. The framed
+     shell at anniversary/play/ owns music now, so this fallback is dormant. */
   function initMusic() {
     if (window.location.search.indexOf('music=ss') === -1) return;
 
@@ -1199,7 +1181,6 @@
   }
 
   /* Initial render, then start the cinematic stream. */
-  // resetNarrativeOnReload();
   initMusic();
   initLikeButtons();
   startTimeline();
