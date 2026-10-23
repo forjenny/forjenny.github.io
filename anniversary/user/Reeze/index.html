@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
   <link rel="stylesheet" href="../../styles.css" />
 </head>
-<body class="site-theme-dark">
+<body class="site-theme-dark profile-theme-reeze">
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <nav class="nav" aria-label="Primary">
@@ -151,7 +151,6 @@
             <span class="profile-btn-label">Following</span>
             <span class="profile-btn-label-alt">Unfollow</span>
           </button>
-          <button class="profile-btn profile-btn-secondary" type="button">Message</button>
         </div>
       </div>
     </div>
@@ -250,21 +249,6 @@
             </div>
           </div>
         </section>
-      </div>
-
-      <div class="profile-col">
-        <section class="profile-section profile-activity" id="activity" aria-labelledby="activity-heading">
-          <h2 class="profile-section-header" id="activity-heading">Recent Activity</h2>
-
-          <div class="activity-feed" id="reeze-feed" aria-busy="true">
-            <p class="profile-feed-message">Loading activity…</p>
-          </div>
-
-          <button class="load-more" id="reeze-load-more" type="button"
-                  aria-controls="reeze-feed" aria-label="Load more activity" hidden>Load More</button>
-
-          <p class="sr-only" id="reeze-feed-status" role="status" aria-live="polite"></p>
-        </section>
 
         <section class="profile-section" id="favorites" aria-labelledby="favorites-heading">
           <h2 class="profile-section-header" id="favorites-heading">Favorites</h2>
@@ -296,6 +280,21 @@
             <a class="profile-favourite" href="https://anilist.co/character/274595/Charteris-Kartazen" target="_blank" rel="noopener noreferrer" aria-label="Charteris Kartazen on AniList (opens in a new tab)"><img src="../../../assets/favourites/274595-charteris-kartazen.png" alt="Charteris Kartazen" loading="lazy" decoding="async" /></a>
             <a class="profile-favourite" href="https://anilist.co/character/276713/Rosentine-Arzen" target="_blank" rel="noopener noreferrer" aria-label="Rosentine Arzen on AniList (opens in a new tab)"><img src="../../../assets/favourites/276713-rosentine-arzen.png" alt="Rosentine Arzen" loading="lazy" decoding="async" /></a>
           </div>
+        </section>
+      </div>
+
+      <div class="profile-col">
+        <section class="profile-section profile-activity" id="activity" aria-labelledby="activity-heading">
+          <h2 class="profile-section-header" id="activity-heading">Recent Activity</h2>
+
+          <div class="activity-feed" id="reeze-feed" aria-busy="true">
+            <p class="profile-feed-message">Loading activity…</p>
+          </div>
+
+          <button class="load-more" id="reeze-load-more" type="button"
+                  aria-controls="reeze-feed" aria-label="Load more activity" hidden>Load More</button>
+
+          <p class="sr-only" id="reeze-feed-status" role="status" aria-live="polite"></p>
         </section>
       </div>
     </div>

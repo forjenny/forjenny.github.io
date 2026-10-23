@@ -9,11 +9,9 @@
   var BATCH_SIZE = 15;
   var DATA_URL = '../../../assets/Reeze.json';
 
-  var AVATARS = {
-    Reeze: '../../../assets/reeze-current.png',
-    Photon: '../../../assets/photon-current.png',
-  };
-  var DEFAULT_AVATAR = '../../../assets/default-pfp.png';
+  var PROFILE_AVATAR = '../../../assets/reeze-current.png';
+  /* Replies in the export carry no picture; everything uses the default pfp. */
+  var REPLY_AVATAR = '../../../assets/default-pfp-3.png';
 
   /* Same inline icons the feed uses. */
   var ICONS = {
@@ -58,8 +56,8 @@
       .replace(/'/g, '&#39;');
   }
 
-  function avatarFor(name) {
-    return AVATARS[name] || DEFAULT_AVATAR;
+  function replyAvatar(reply) {
+    return (reply.user && reply.user.avatar) || REPLY_AVATAR;
   }
 
   function plural(value, unit) {
@@ -118,24 +116,17 @@
   }
 
   function buildReplyControl(post, replyCount, repliesId) {
-    var content = '<span class="count">' + replyCount + '</span>' + ICONS.replies;
-
-    /* Nothing to expand (some exports carry a count but no replies). */
-    if (!post.replies || !post.replies.length) {
-      return (
-        '<span class="action replies is-static">' +
-        content +
-        '<span class="sr-only"> replies</span>' +
-        '</span>'
-      );
-    }
+    /* A zero count stays hidden, but the icon still opens the empty state. */
+    var count = replyCount > 0 ? '<span class="count">' + replyCount + '</span>' : '';
+    var label = replyCount > 0 ? 'Replies: ' + replyCount : 'Replies';
 
     return (
       '<button class="action replies" type="button" ' +
       'data-activity-id="' + escapeHtml(post.id) + '" ' +
       'aria-expanded="false" aria-controls="' + repliesId + '" ' +
-      'aria-label="Replies: ' + replyCount + '">' +
-      content +
+      'aria-label="' + label + '">' +
+      count +
+      ICONS.replies +
       '</button>'
     );
   }
@@ -150,8 +141,8 @@
       '<header class="reply-header">' +
       '<span class="reply-avatar">' +
       '<img src="' +
-      avatarFor(author) +
-      '" alt="" loading="lazy" decoding="async" />' +
+      replyAvatar(reply) +
+      '" alt="" decoding="async" />' +
       '</span>' +
       '<span class="reply-name">' +
       escapeHtml(author) +
@@ -176,9 +167,15 @@
 
   function buildPost(post) {
     var replies = Array.isArray(post.replies) ? post.replies : [];
-    var replyCount =
-      typeof post.replyCount === 'number' ? post.replyCount : replies.length;
+    var replyCount = replies.length
+      ? typeof post.replyCount === 'number' && post.replyCount > 0
+        ? post.replyCount
+        : replies.length
+      : 0;
     var repliesId = 'replies-' + post.id;
+    var repliesBody = replies.length
+      ? replies.map(buildReply).join('')
+      : '<div class="activity-reply-placeholder" aria-hidden="true">Write a reply...</div>';
 
     return (
       '<article class="activity-entry" data-activity-id="' +
@@ -189,7 +186,7 @@
       '<span class="user-info">' +
       '<div class="avatar">' +
       '<img src="' +
-      AVATARS.Reeze +
+      PROFILE_AVATAR +
       '" alt="" loading="lazy" />' +
       '</div>' +
       '<span class="name">' +
@@ -215,13 +212,11 @@
       buildReplyControl(post, replyCount, repliesId) +
       buildLikeButton(post.likeCount) +
       '</footer>' +
-      (replies.length
-        ? '<div class="activity-replies" id="' +
-          repliesId +
-          '" hidden>' +
-          replies.map(buildReply).join('') +
-          '</div>'
-        : '') +
+      '<div class="activity-replies" id="' +
+      repliesId +
+      '" hidden>' +
+      repliesBody +
+      '</div>' +
       '</div>' +
       '</article>'
     );
