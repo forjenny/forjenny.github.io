@@ -10,8 +10,13 @@
   var DATA_URL = '../../../assets/Reeze.json';
 
   var PROFILE_AVATAR = '../../../assets/reeze-current.png';
-  /* Replies in the export carry no picture; everything uses the default pfp. */
+  /* Replies in the export carry no picture; named users get their own, everyone
+     else falls back to the default pfp. */
   var REPLY_AVATAR = '../../../assets/default-pfp-3.png';
+  var KNOWN_AVATARS = {
+    Reeze: '../../../assets/reeze-current.png',
+    Photon: '../../../assets/photon-current.png',
+  };
 
   /* Same inline icons the feed uses. */
   var ICONS = {
@@ -57,7 +62,10 @@
   }
 
   function replyAvatar(reply) {
-    return (reply.user && reply.user.avatar) || REPLY_AVATAR;
+    var user = reply.user || {};
+    if (user.avatar) return user.avatar;
+    if (user.name && KNOWN_AVATARS[user.name]) return KNOWN_AVATARS[user.name];
+    return REPLY_AVATAR;
   }
 
   function plural(value, unit) {
@@ -103,13 +111,15 @@
   /* Templates                                                          */
   /* ------------------------------------------------------------------ */
 
-  function buildLikeButton(likes) {
+  function buildLikeButton(likes, hideZero) {
     var count = Number(likes) || 0;
+    var showCount = !hideZero || count > 0;
+    var label = hideZero && count === 0 ? 'Likes' : 'Likes: ' + count;
 
     return (
       '<button class="action likes" type="button" aria-pressed="false" ' +
-      'aria-label="Likes: ' + count + '">' +
-      '<span class="count">' + count + '</span>' +
+      'aria-label="' + label + '">' +
+      (showCount ? '<span class="count">' + count + '</span>' : '') +
       ICONS.heart +
       '</button>'
     );
@@ -159,7 +169,7 @@
       escapeHtml(reply.text) +
       '</p>' +
       '<footer class="actions">' +
-      buildLikeButton(reply.likeCount) +
+      buildLikeButton(reply.likeCount, true) +
       '</footer>' +
       '</article>'
     );
@@ -348,12 +358,32 @@
     if (!button.classList.contains('likes')) return;
 
     var countEl = button.querySelector('.count');
-    var count = Number(countEl.textContent) || 0;
+    var count = countEl ? Number(countEl.textContent) || 0 : 0;
     var liked = button.classList.toggle('liked');
+    var next = Math.max(0, count + (liked ? 1 : -1));
+    var isReply = button.closest('.activity-reply') !== null;
 
-    countEl.textContent = liked ? count + 1 : count - 1;
+    if (next > 0) {
+      if (!countEl) {
+        countEl = document.createElement('span');
+        countEl.className = 'count';
+        button.insertBefore(countEl, button.firstChild);
+      }
+      countEl.textContent = String(next);
+    } else if (countEl) {
+      /* Replies hide a zero count; parent posts keep showing it. */
+      if (isReply) {
+        countEl.parentNode.removeChild(countEl);
+      } else {
+        countEl.textContent = '0';
+      }
+    }
+
     button.setAttribute('aria-pressed', liked ? 'true' : 'false');
-    button.setAttribute('aria-label', 'Likes: ' + countEl.textContent);
+    button.setAttribute(
+      'aria-label',
+      next > 0 ? 'Likes: ' + next : isReply ? 'Likes' : 'Likes: 0'
+    );
   });
 
   /* ------------------------------------------------------------------ */

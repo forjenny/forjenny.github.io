@@ -2074,6 +2074,12 @@ body.site-theme-dark.profile-theme-reeze {
   border-radius: 4px;
 }
 
+/* Feed avatars (posts and replies) are square and unfilled on this page. */
+.profile-activity .activity-entry .header .avatar {
+  background-color: transparent;
+  border-radius: 0;
+}
+
 /* Replies nested under a parent post — collapsed until its reply icon opens. */
 .activity-replies {
   display: flex;
@@ -2110,7 +2116,7 @@ body.site-theme-dark.profile-theme-reeze {
   height: 32px;
   overflow: hidden;
   background-color: transparent;
-  border-radius: 3px;
+  border-radius: 0;
 }
 
 .reply-avatar img {
