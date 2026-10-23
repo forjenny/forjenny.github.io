@@ -84,6 +84,7 @@ I've been hiding the truth from y'all. Im not actually hatsune miku. im her cous
 const reezeSpecialPost = {
   username: 'Reeze',
   avatarUrl: '../assets/reeze-current.png',
+  profileUrl: 'user/Reeze/',
   text: `Uni is so funny. My deadline is in 3 days. I still emailed my professor that I won't make it and he gave me a 2 week extension no questions whatsoever. Who said "That shit won't fly in uni"?`,
   timestamp: 'a few seconds ago',
   likes: 0,
@@ -126,6 +127,7 @@ const forumActivity = [
     summary: '',
     replier: 'Reeze',
     replierAvatar: '../assets/reeze-current.png',
+    replierUrl: 'user/Reeze/',
     replyTime: '5 years ago',
     tags: [
       { label: 'anime', color: '#02a9ff' },

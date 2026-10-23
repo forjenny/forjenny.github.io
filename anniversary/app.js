@@ -143,19 +143,32 @@
 
   /* Build one .activity-entry card. */
   function buildPost(post) {
+    var avatarInner =
+      '<img src="' + escapeHtml(post.avatarUrl) + '" alt="" loading="lazy" />';
+    var avatar = post.profileUrl
+      ? '<a class="avatar" href="' +
+        escapeHtml(post.profileUrl) +
+        '" aria-label="' +
+        escapeHtml(post.username) +
+        '">' +
+        avatarInner +
+        '</a>'
+      : '<div class="avatar">' + avatarInner + '</div>';
+    var name = post.profileUrl
+      ? '<a class="name" href="' +
+        escapeHtml(post.profileUrl) +
+        '">' +
+        escapeHtml(post.username) +
+        '</a>'
+      : '<span class="name">' + escapeHtml(post.username) + '</span>';
+
     return (
       '<article class="activity-entry">' +
       '<div class="wrap">' +
       '<header class="header">' +
       '<span class="user-info">' +
-      '<div class="avatar">' +
-      '<img src="' +
-      escapeHtml(post.avatarUrl) +
-      '" alt="" loading="lazy" />' +
-      '</div>' +
-      '<span class="name">' +
-      escapeHtml(post.username) +
-      '</span>' +
+      avatar +
+      name +
       '</span>' +
       '<span class="time-wrap">' +
       '<span class="time-icons">' +
@@ -999,7 +1012,13 @@
       escapeHtml(item.replierAvatar) +
       '\')"></span>' +
       '<span class="forum-replier">' +
-      escapeHtml(item.replier) +
+      (item.replierUrl
+        ? '<a href="' +
+          escapeHtml(item.replierUrl) +
+          '">' +
+          escapeHtml(item.replier) +
+          '</a>'
+        : escapeHtml(item.replier)) +
       '</span>' +
       '<span class="forum-replied">replied</span>' +
       '<span class="forum-reply-time">' +

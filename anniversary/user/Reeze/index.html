@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Reeze's AniList profile — about, statistics, recent activity and favourites." />
+  <title>Reeze's profile &middot; AniList</title>
+  <link rel="icon" type="image/svg+xml" href="../../../assets/icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,400;0,500;0,700;1,400&display=swap" />
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="site-theme-dark">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-wrap">
+    <a class="logo" href="../../" aria-label="Home">
+      <img src="../../../assets/icon.svg" alt="" />
+    </a>
+
+    <div class="links" id="primary-links">
+      <a class="link" href="../../">Home</a>
+      <a class="link" href="../../profile/">Profile</a>
+      <a class="link" href="../../animelist/">Anime List</a>
+      <a class="link" href="../../mangalist/">Manga List</a>
+      <a class="link" href="../../browse/">Browse</a>
+      <a class="link" href="../../forum/">Forum</a>
+    </div>
+
+    <div class="right-cluster">
+      <button class="nav-toggle" type="button" aria-label="Open menu"
+              aria-expanded="false" aria-controls="primary-links">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+
+      <button class="search" type="button" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </button>
+
+      <div class="user-wrap">
+        <button class="user-trigger" type="button" aria-haspopup="true"
+                aria-expanded="false" aria-controls="account-menu"
+                aria-label="Account menu">
+          <span class="avatar nav-avatar" role="img" aria-label="Photon"></span>
+          <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+
+        <div class="dropdown" id="account-menu">
+          <div class="primary-links">
+            <a class="primary-link" href="../../profile/">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" />
+              </svg>
+              <span>Profile</span>
+            </a>
+
+            <a class="primary-link" href="../../notifications/">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m3 7 9 6 9-6" />
+              </svg>
+              <span>Notifications</span>
+            </a>
+
+            <a class="primary-link" href="../../settings/">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg>
+              <span>Settings</span>
+            </a>
+          </div>
+
+          <div class="footer">
+            <a class="secondary-link" href="../../donate/">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" />
+              </svg>
+              <span>Donate</span>
+            </a>
+
+            <a class="secondary-link" href="../../apps/">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                <rect x="14" y="14" width="7" height="7" rx="1.5" />
+              </svg>
+              <span>Apps</span>
+            </a>
+
+            <a class="secondary-link" href="../../discord/">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.9 5.6A16.9 16.9 0 0 0 14.7 4.3l-.2.4a13 13 0 0 1 3.6 1.8 12.9 12.9 0 0 0-10.2 0 13 13 0 0 1 3.6-1.8l-.2-.4A16.9 16.9 0 0 0 5.1 5.6 18.6 18.6 0 0 0 2 18.1a17 17 0 0 0 5.2 2.6l.6-1a11 11 0 0 1-1.7-.8l.4-.3a12.2 12.2 0 0 0 10.2 0l.4.3a11 11 0 0 1-1.7.8l.6 1a17 17 0 0 0 5.2-2.6 18.6 18.6 0 0 0-3.1-12.5zM9.3 15.1c-1 0-1.9-.9-1.9-2s.8-2 1.9-2 1.9.9 1.9 2-.8 2-1.9 2zm5.4 0c-1 0-1.9-.9-1.9-2s.8-2 1.9-2 1.9.9 1.9 2-.8 2-1.9 2z" />
+              </svg>
+              <span>Discord</span>
+            </a>
+
+            <a class="secondary-link" href="../../logout/">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              <span>Logout</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </nav>
+
+  <div class="profile-header">
+    <div class="profile-banner" style="background-image: url('../../../assets/reeze-background.jpg')">
+      <div class="profile-banner-shadow" aria-hidden="true"></div>
+
+      <div class="profile-container profile-banner-inner">
+        <img class="profile-avatar" src="../../../assets/reeze-current.png"
+             alt="Reeze's avatar" width="160" height="193" />
+
+        <div class="profile-name-wrap">
+          <h1 class="profile-name">Reeze</h1>
+        </div>
+
+        <span class="profile-badge">Follows You</span>
+
+        <div class="profile-actions">
+          <button class="profile-btn profile-follow" type="button">
+            <span class="profile-btn-label">Following</span>
+            <span class="profile-btn-label-alt">Unfollow</span>
+          </button>
+          <button class="profile-btn profile-btn-secondary" type="button">Message</button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="profile-tabbar" aria-label="Profile sections">
+      <div class="profile-container profile-tabs">
+        <a class="profile-tab is-active" href="./" aria-current="page">Overview</a>
+        <a class="profile-tab" href="../../animelist/">Anime List</a>
+        <a class="profile-tab" href="../../mangalist/">Manga List</a>
+        <a class="profile-tab" href="#favorites">Favorites</a>
+        <a class="profile-tab" href="#statistics">Stats</a>
+        <span class="profile-tab is-disabled">Social</span>
+        <span class="profile-tab is-disabled">Reviews</span>
+      </div>
+    </nav>
+  </div>
+
+  <main class="profile-container profile-main" id="main-content">
+    <div class="profile-grid">
+      <div class="profile-col">
+        <section class="profile-section" aria-labelledby="about-heading">
+          <h2 class="profile-section-header" id="about-heading">About</h2>
+
+          <div class="profile-card profile-about">
+            <p class="profile-about-intro"><strong>Welcome to my Anilist!</strong></p>
+
+            <p><strong>About me:</strong></p>
+            <p>I’m a 22 year old Chinese student from Germany, who spent way too much time of her youth on AniManga. Nowadays I’m definitely not as active anymore and took it a step easier to actually enjoy anime instead of just rushing through to have watched as much as possible.<br />My anime journey literally only began because of a guy. I have always watched anime casually but it would have never become a serious ‘thing’ in my life if my best friend from elementary school didn’t come up to me every day and ask me whether I’ve watched the new episode of Sailor Moon. I didn’t want to disappoint him so I went home and watched Sailor Moon that day (it was episode 3 this is such a core memory for me). And the rest is history...</p>
+
+            <p><strong>Trivia:</strong></p>
+            <p>One of my earliest memories is sitting in front of the TV with my dad on my side who was eating. I was watching One Piece and back then during the episodes they added in the upper right corner a small batch with the title of the series, so I asked my dad “Dad, what is ‘One Piece’?”. It’s just such an endearing memory to me because my childhood was spent wondering what the One Piece is and it’s still a question that’s accompanying me to this day.</p>
+
+            <p><strong>Anime:</strong></p>
+            <p>Well, I used to be what’s called ‘Shounen trash’. Up til I was 15 year old probably, for some reason, I had such a strong aversion towards anything that wasn’t battle Shounen. Of course there were always exceptions for ahem- my degenerate side but 90% of my time was spent watching muscle guy beat up other muscle guy. That changed in 2017 when I watched my first romance anime and, I shit you not, it was Masamune-kun no revenge. That show awakened something in me and definitely left a lasting impression because my favourite romance now is Scum’s Wish. Of course, nowadays I’ve become an integrated member of society and watch every and any genre out there and have an open mind now.<br />Also, a very stupid fun fact about me is that from age 10 to 15, because my ass was too stupid to look up online forums and didn’t know what MAL was, I would go onto google and type in ‘Anime boy’, go to images and look through them to find a character that I found pretty. Once I’ve found a character, I would watch the entire show just for that one dude. That was my anime choosing process and through that I discovered anime like Vampire Knight, Diabolic Lovers and Pandora hearts. A very questionable period in my life indeed.</p>
+
+            <p>So, what's my favourite anime? It's a little show called Bungou Stray Dogs that seemingly all anime fans know but only few people actually watch it. Is it my favourite anime because it's the best Seinen out there? Nope. Is it my favourite anime because the main character is cool? Nope. Is it because I've spent 50+ hours on Tumblr, Twitter and online forums and read through countless character analyses, philosophical debates and plot theories regarding this show? Sounds more like it.</p>
+
+            <p><strong>Manga:</strong></p>
+            <p>For the longest time, my favourite manga was To Your Eternity but that series turned into a snooze fest 100+ chapters in so we dropped that. Then there was The Promised Neverland. I binge read that series within one night and at 8am in my sleep deprived and delirious state of mind, I rated it a 10 out of 10. <a href="https://anilist.co/user/Erfan" target="_blank" rel="noopener noreferrer">@Erfan</a> definitely clowned me for that. Well, at some point I thought that there would simply never be a manga that I would call my favourite but then I discovered the Tokyo Ghoul manga and I consumed that series like crack. I can’t thank the anime studio enough for making that atrocious adaptation because without it I would have never checked out the manga.</p>
+
+            <p><strong>Manhwa:</strong></p>
+            <p>HAHA this is like opening pandora’s box. My relationship with manhwa can’t even be called an obsession anymore, it’s straight up an addiction at this point. Whenever I thought I had gotten sober, I would relapse even harder. Everything began on Christmas Eve 2019. Guests were downstairs and I was hiding in my room. Through sheer coincidence, I got an Ad for Who Made Me A Princess. I swear, I thought it was some pedo bait but I gave it a try because of the pretty artstyle… Well 6 years later and I’m now somewhere around 300-400 manhwa in. The saddest part of all is that all of them are from the same genre. I’m genuinely addicted to Romance Fantasy. I see evil villainess being reborn and getting a second chance and she knows how the future will play out? Sign me the fuck up. Long story short: My favourite manhwa is Secret Lady. Please check it out.</p>
+
+            <p><strong>Overview of my favourites:</strong></p>
+            <p>
+              Seinen Anime: <a href="https://anilist.co/anime/103223/Bungo-Stray-Dogs-3" target="_blank" rel="noopener noreferrer">Bungo Stray Dogs 3</a><br />
+              Romance Anime: <a href="https://anilist.co/anime/21701/Scums-Wish" target="_blank" rel="noopener noreferrer">Scum's Wish</a><br />
+              Shounen Anime: <a href="https://anilist.co/anime/21/ONE-PIECE" target="_blank" rel="noopener noreferrer">ONE PIECE</a><br />
+              Manga: <a href="https://anilist.co/manga/85611/Tokyo-Ghoulre" target="_blank" rel="noopener noreferrer">Tokyo Ghoul:re</a><br />
+              Manhwa: <a href="https://anilist.co/manga/133797/Secret-Lady" target="_blank" rel="noopener noreferrer">Secret Lady</a>
+            </p>
+
+            <p>Discord: Reeze#5670</p>
+          </div>
+        </section>
+
+        <section class="profile-section" id="statistics" aria-labelledby="statistics-heading">
+          <h2 class="profile-section-header" id="statistics-heading">Statistics</h2>
+
+          <div class="profile-stats">
+            <div class="profile-stat-rows">
+              <div class="profile-stat-row">
+                <div class="profile-stat-top">
+                  <span class="profile-stat-name">Anime</span>
+                  <span class="profile-stat-value">441</span>
+                </div>
+                <div class="profile-meter" role="img" aria-label="441 anime">
+                  <span class="profile-meter-bar" style="width: 82%"></span>
+                </div>
+              </div>
+
+              <div class="profile-stat-row">
+                <div class="profile-stat-top">
+                  <span class="profile-stat-name">Manga</span>
+                  <span class="profile-stat-value">388</span>
+                </div>
+                <div class="profile-meter" role="img" aria-label="388 manga">
+                  <span class="profile-meter-bar" style="width: 76%"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="profile-stat-footer">
+              <div class="profile-stat-cell">
+                <span class="profile-stat-value">21.4</span>
+                <span class="profile-stat-label">Days Watched</span>
+              </div>
+              <div class="profile-stat-cell">
+                <span class="profile-stat-value">76.4</span>
+                <span class="profile-stat-label">Mean Score</span>
+              </div>
+              <div class="profile-stat-cell">
+                <span class="profile-stat-value">2579</span>
+                <span class="profile-stat-label">Episodes</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="profile-col">
+        <section class="profile-section profile-activity" id="activity" aria-labelledby="activity-heading">
+          <h2 class="profile-section-header" id="activity-heading">Recent Activity</h2>
+
+          <div class="activity-feed" id="reeze-feed" aria-busy="true">
+            <p class="profile-feed-message">Loading activity…</p>
+          </div>
+
+          <button class="load-more" id="reeze-load-more" type="button"
+                  aria-controls="reeze-feed" aria-label="Load more activity" hidden>Load More</button>
+
+          <p class="sr-only" id="reeze-feed-status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="profile-section" id="favorites" aria-labelledby="favorites-heading">
+          <h2 class="profile-section-header" id="favorites-heading">Favorites</h2>
+
+          <div class="profile-favourites">
+            <a class="profile-favourite" href="https://anilist.co/character/27/Killua-Zoldyck" target="_blank" rel="noopener noreferrer" aria-label="Killua Zoldyck on AniList (opens in a new tab)"><img src="../../../assets/favourites/27-killua-zoldyck.jpg" alt="Killua Zoldyck" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/40/Luffy-D-Monkey" target="_blank" rel="noopener noreferrer" aria-label="Monkey D. Luffy on AniList (opens in a new tab)"><img src="../../../assets/favourites/40-luffy-d-monkey.png" alt="Monkey D. Luffy" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/207/Tooru-Honda" target="_blank" rel="noopener noreferrer" aria-label="Tooru Honda on AniList (opens in a new tab)"><img src="../../../assets/favourites/207-tooru-honda.png" alt="Tooru Honda" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/209/Kyou-Souma" target="_blank" rel="noopener noreferrer" aria-label="Kyou Souma on AniList (opens in a new tab)"><img src="../../../assets/favourites/209-kyou-souma.png" alt="Kyou Souma" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/417/Lelouch-Lamperouge" target="_blank" rel="noopener noreferrer" aria-label="Lelouch Lamperouge on AniList (opens in a new tab)"><img src="../../../assets/favourites/417-lelouch-lamperouge.png" alt="Lelouch Lamperouge" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/1358/Sesshoumaru" target="_blank" rel="noopener noreferrer" aria-label="Sesshoumaru on AniList (opens in a new tab)"><img src="../../../assets/favourites/1358-sesshoumaru.png" alt="Sesshoumaru" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/13767/Law-Trafalgar" target="_blank" rel="noopener noreferrer" aria-label="Trafalgar Law on AniList (opens in a new tab)"><img src="../../../assets/favourites/13767-law-trafalgar.jpg" alt="Trafalgar Law" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/16342/Hancock-Boa" target="_blank" rel="noopener noreferrer" aria-label="Boa Hancock on AniList (opens in a new tab)"><img src="../../../assets/favourites/16342-hancock-boa.png" alt="Boa Hancock" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/22055/Tsubasa-Hanekawa" target="_blank" rel="noopener noreferrer" aria-label="Tsubasa Hanekawa on AniList (opens in a new tab)"><img src="../../../assets/favourites/22055-tsubasa-hanekawa.png" alt="Tsubasa Hanekawa" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/23277/Meruem" target="_blank" rel="noopener noreferrer" aria-label="Meruem on AniList (opens in a new tab)"><img src="../../../assets/favourites/23277-meruem.png" alt="Meruem" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/69407/Kousei-Arima" target="_blank" rel="noopener noreferrer" aria-label="Kousei Arima on AniList (opens in a new tab)"><img src="../../../assets/favourites/69407-kousei-arima.png" alt="Kousei Arima" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/87275/Ken-Kaneki" target="_blank" rel="noopener noreferrer" aria-label="Ken Kaneki on AniList (opens in a new tab)"><img src="../../../assets/favourites/87275-ken-kaneki.png" alt="Ken Kaneki" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/89198/Osamu-Dazai" target="_blank" rel="noopener noreferrer" aria-label="Osamu Dazai on AniList (opens in a new tab)"><img src="../../../assets/favourites/89198-osamu-dazai.png" alt="Osamu Dazai" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/89853/Chuuya-Nakahara" target="_blank" rel="noopener noreferrer" aria-label="Chuuya Nakahara on AniList (opens in a new tab)"><img src="../../../assets/favourites/89853-chuuya-nakahara.png" alt="Chuuya Nakahara" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/120989/Hanabi-Yasuraoka" target="_blank" rel="noopener noreferrer" aria-label="Hanabi Yasuraoka on AniList (opens in a new tab)"><img src="../../../assets/favourites/120989-hanabi-yasuraoka.jpg" alt="Hanabi Yasuraoka" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/120991/Akane-Minagawa" target="_blank" rel="noopener noreferrer" aria-label="Akane Minagawa on AniList (opens in a new tab)"><img src="../../../assets/favourites/120991-akane-minagawa.jpg" alt="Akane Minagawa" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/124381/Zero-Two" target="_blank" rel="noopener noreferrer" aria-label="Zero Two on AniList (opens in a new tab)"><img src="../../../assets/favourites/124381-zero-two.png" alt="Zero Two" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/126858/Kei-Yonagi" target="_blank" rel="noopener noreferrer" aria-label="Kei Yonagi on AniList (opens in a new tab)"><img src="../../../assets/favourites/126858-kei-yonagi.png" alt="Kei Yonagi" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/136776/Claude-De-Alger-Obelia" target="_blank" rel="noopener noreferrer" aria-label="Claude de Alger Obelia on AniList (opens in a new tab)"><img src="../../../assets/favourites/136776-claude-de-alger-obelia.png" alt="Claude de Alger Obelia" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/156371/Nezha" target="_blank" rel="noopener noreferrer" aria-label="Nezha on AniList (opens in a new tab)"><img src="../../../assets/favourites/156371-nezha.png" alt="Nezha" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/161011/Chun-Yeong-Yu" target="_blank" rel="noopener noreferrer" aria-label="Chun Yeong Yu on AniList (opens in a new tab)"><img src="../../../assets/favourites/161011-chun-yeong-yu.png" alt="Chun Yeong Yu" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/167216/Shuri-Von-Neuschwanstein" target="_blank" rel="noopener noreferrer" aria-label="Shuri von Neuschwanstein on AniList (opens in a new tab)"><img src="../../../assets/favourites/167216-shuri-von-neuschwanstein.png" alt="Shuri von Neuschwanstein" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/167217/Jeremy-Von-Neuschwanstein" target="_blank" rel="noopener noreferrer" aria-label="Jeremy von Neuschwanstein on AniList (opens in a new tab)"><img src="../../../assets/favourites/167217-jeremy-von-neuschwanstein.png" alt="Jeremy von Neuschwanstein" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/274595/Charteris-Kartazen" target="_blank" rel="noopener noreferrer" aria-label="Charteris Kartazen on AniList (opens in a new tab)"><img src="../../../assets/favourites/274595-charteris-kartazen.png" alt="Charteris Kartazen" loading="lazy" decoding="async" /></a>
+            <a class="profile-favourite" href="https://anilist.co/character/276713/Rosentine-Arzen" target="_blank" rel="noopener noreferrer" aria-label="Rosentine Arzen on AniList (opens in a new tab)"><img src="../../../assets/favourites/276713-rosentine-arzen.png" alt="Rosentine Arzen" loading="lazy" decoding="async" /></a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../nav.js"></script>
+  <script src="activity.js"></script>
+</body>
+</html>

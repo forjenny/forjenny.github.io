@@ -1753,6 +1753,616 @@ button:focus-visible,
 }
 
 /* ==========================================================================
+   Profile page — /anniversary/user/Reeze/
+   Recreated from the saved AniList profile: the 330px banner with its bottom
+   gradient, the 160px portrait avatar, the centred tab bar and the 45/55 card
+   grid. Colours come from the AniList dark theme (#0b1622 background,
+   #151f2e cards, #3db4f2 accent); prose uses Roboto, the rest Overpass.
+   ========================================================================== */
+
+.profile-container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+
+/* ---- Banner -------------------------------------------------------------- */
+
+.profile-banner {
+  position: relative;
+  height: 330px;
+  background-color: #242538;
+  background-position: 50% 35%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.profile-banner-shadow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 13, 34, 0) 40%,
+    rgba(6, 13, 34, 0.6) 100%
+  );
+}
+
+.profile-banner-inner {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.profile-avatar {
+  display: block;
+  width: 160px;
+  height: auto;
+  max-height: 230px;
+  border-radius: 4px 4px 0 0;
+  object-fit: cover;
+}
+
+.profile-name-wrap {
+  padding: 22px 25px;
+}
+
+.profile-name {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: rgb(var(--color-text-bright));
+}
+
+.profile-badge {
+  flex: none;
+  margin-right: 16px;
+  margin-bottom: 20px;
+  padding: 5px 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgb(var(--color-white));
+  background-color: rgba(var(--color-blue), 0.8);
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.profile-badge:hover {
+  background-color: rgba(var(--color-blue), 0.9);
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  padding: 15px 0;
+}
+
+.profile-btn {
+  min-height: 40px;
+  padding: 10px 12px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgb(var(--color-white));
+  background-color: rgba(var(--color-blue), 0.8);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.profile-btn:hover {
+  background-color: rgb(var(--color-blue));
+}
+
+.profile-btn-label-alt {
+  display: none;
+}
+
+.profile-follow:hover .profile-btn-label {
+  display: none;
+}
+
+.profile-follow:hover .profile-btn-label-alt {
+  display: inline;
+}
+
+.profile-btn-secondary {
+  color: rgb(var(--color-text-bright));
+  background-color: rgba(6, 13, 34, 0.55);
+}
+
+.profile-btn-secondary:hover {
+  color: rgb(var(--color-white));
+  background-color: rgba(6, 13, 34, 0.8);
+}
+
+/* ---- Tab bar ------------------------------------------------------------- */
+
+.profile-tabbar {
+  background-color: rgb(var(--color-foreground));
+}
+
+.profile-tabs {
+  max-width: 1220px;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.profile-tab {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 15px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: rgb(var(--color-text-light));
+  transition: color 0.15s ease;
+}
+
+.profile-tab:hover {
+  color: rgb(var(--color-blue));
+}
+
+.profile-tab.is-active {
+  color: rgb(var(--color-blue));
+}
+
+.profile-tab.is-disabled {
+  cursor: default;
+}
+
+.profile-tab.is-disabled:hover {
+  color: rgb(var(--color-text-light));
+}
+
+/* ---- Layout -------------------------------------------------------------- */
+
+.profile-main {
+  margin-top: 30px;
+  padding-bottom: 60px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: calc(45% - 40px) 55%;
+  column-gap: 40px;
+  align-items: start;
+}
+
+.profile-col {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  min-width: 0;
+}
+
+.profile-section {
+  scroll-margin-top: 95px;
+}
+
+.profile-section-header {
+  margin-bottom: 10px;
+  padding-left: 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgb(var(--color-text));
+  text-transform: capitalize;
+}
+
+.profile-card {
+  padding: 20px;
+  font-size: 1.4rem;
+  background-color: rgb(var(--color-foreground));
+  border-radius: 4px;
+}
+
+/* ---- About --------------------------------------------------------------- */
+
+.profile-about {
+  max-height: 700px;
+  overflow: hidden;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.4;
+  color: rgb(var(--color-text));
+}
+
+.profile-about:hover,
+.profile-about:focus-within {
+  overflow-y: auto;
+}
+
+.profile-about p {
+  margin: 0 0 12px;
+}
+
+.profile-about p:last-child {
+  margin-bottom: 0;
+}
+
+.profile-about strong {
+  font-weight: 700;
+}
+
+.profile-about a {
+  color: rgb(var(--color-blue));
+}
+
+.profile-about a:hover {
+  text-decoration: underline;
+}
+
+.profile-about-intro {
+  text-align: center;
+}
+
+/* ---- Statistics ---------------------------------------------------------- */
+
+.profile-stats {
+  overflow: hidden;
+  background-color: rgb(var(--color-foreground));
+  border-radius: 4px;
+}
+
+.profile-stat-rows {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+}
+
+.profile-stat-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.profile-stat-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(var(--color-text-light));
+}
+
+.profile-stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgb(var(--color-blue));
+}
+
+.profile-meter {
+  height: 11px;
+  overflow: hidden;
+  background-color: rgb(var(--color-foreground-grey-dark));
+  border-radius: 4px;
+}
+
+.profile-meter-bar {
+  display: block;
+  height: 100%;
+  background-color: rgb(var(--color-blue));
+  border-radius: 0 50px 50px 0;
+}
+
+.profile-stat-footer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 14px 10px;
+  text-align: center;
+  background-color: rgb(var(--color-foreground-grey));
+}
+
+.profile-stat-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.profile-stat-label {
+  font-size: 1.1rem;
+  color: rgb(var(--color-text-light));
+}
+
+/* ---- Recent activity ----------------------------------------------------- */
+
+.profile-feed-message {
+  padding: 24px 20px;
+  font-size: 1.4rem;
+  text-align: center;
+  color: rgb(var(--color-text-light));
+  background-color: rgb(var(--color-foreground));
+  border-radius: 4px;
+}
+
+/* Replies nested under a parent post — collapsed until its reply icon opens. */
+.activity-replies {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+  padding-left: 20px;
+  overflow: hidden;
+  border-left: 2px solid rgba(var(--color-blue), 0.22);
+  transition: height 0.25s ease, opacity 0.25s ease;
+}
+
+.activity-replies[hidden] {
+  display: none;
+}
+
+.activity-reply {
+  padding: 14px 16px;
+  background-color: rgb(var(--color-foreground-grey));
+  border-radius: 4px;
+}
+
+.reply-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.reply-avatar {
+  flex: none;
+  display: block;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  background-color: rgb(var(--color-gray-300));
+  border-radius: 3px;
+}
+
+.reply-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+.reply-name {
+  overflow: hidden;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgb(var(--color-blue));
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reply-time {
+  flex: none;
+  margin-left: auto;
+  padding-left: 8px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: rgb(var(--color-text-lighter));
+  white-space: nowrap;
+}
+
+.reply-text {
+  margin-top: 8px;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  color: rgb(var(--color-text));
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.activity-reply .actions {
+  margin-top: 6px;
+}
+
+/* Reply count on the parent card — a readout, not a control. */
+.activity-entry .action.is-static {
+  cursor: default;
+}
+
+.activity-entry .action.is-static:hover {
+  color: rgb(var(--color-blue-dim));
+}
+
+/* Reply icon lights up while this post's replies are open. */
+.activity-entry .action.replies.is-open {
+  color: rgb(var(--color-blue));
+}
+
+/* "Load More" — matches the AniList .load-more button. */
+.profile-activity .load-more {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  font-family: inherit;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+  color: rgb(var(--color-text-light));
+  background-color: rgb(var(--color-foreground));
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-activity .load-more:hover {
+  color: rgb(var(--color-blue));
+  box-shadow: 0 2px 20px 0 rgba(6, 13, 34, 0.05);
+}
+
+.profile-activity .load-more:disabled {
+  color: rgb(var(--color-text-lighter));
+  cursor: default;
+}
+
+.profile-activity .load-more[hidden] {
+  display: none;
+}
+
+/* ---- Favourites ---------------------------------------------------------- */
+
+.profile-favourites {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 85px);
+  gap: 25px;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: rgb(var(--color-foreground));
+  border-radius: 4px;
+}
+
+.profile-favourite {
+  display: block;
+  width: 85px;
+  height: 115px;
+  overflow: hidden;
+  background-color: rgb(var(--color-foreground-grey));
+  border-radius: 4px;
+}
+
+.profile-favourite img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.profile-favourite:hover img,
+.profile-favourite:focus-visible img {
+  transform: scale(1.05);
+}
+
+/* ---- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 1040px) {
+  .profile-grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 30px;
+  }
+
+  .profile-about {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 0 20px;
+  }
+
+  .profile-banner {
+    height: 240px;
+  }
+
+  .profile-avatar {
+    width: 110px;
+  }
+
+  .profile-name-wrap {
+    padding: 14px 16px;
+  }
+
+  .profile-name {
+    font-size: 1.8rem;
+  }
+
+  .profile-badge {
+    display: none;
+  }
+
+  .profile-actions {
+    padding: 12px 0;
+    gap: 8px;
+  }
+
+  .profile-btn {
+    min-height: 44px;
+    padding: 10px;
+    font-size: 1.3rem;
+  }
+
+  .profile-tabs {
+    padding: 0 12px;
+    overflow-x: auto;
+    text-align: left;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .profile-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .profile-tab {
+    margin: 0 2px;
+    padding: 15px 10px;
+  }
+
+  .profile-main {
+    margin-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .activity-replies {
+    gap: 8px;
+    margin-top: 12px;
+    padding-left: 12px;
+  }
+
+  .activity-reply {
+    padding: 12px;
+  }
+
+  .reply-name {
+    font-size: 1.2rem;
+  }
+
+  .profile-favourites {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .profile-stat-footer {
+    padding: 12px 6px;
+  }
+}
+
+@media (max-width: 420px) {
+  .profile-avatar {
+    width: 90px;
+  }
+
+  .profile-name {
+    font-size: 1.6rem;
+  }
+
+  .profile-name-wrap {
+    padding: 12px;
+  }
+
+  .profile-btn {
+    padding: 8px;
+    font-size: 1.2rem;
+  }
+
+  .profile-favourites {
+    grid-template-columns: repeat(auto-fill, 72px);
+    gap: 12px;
+  }
+
+  .profile-favourite {
+    width: 72px;
+    height: 98px;
+  }
+}
+
+/* ==========================================================================
    Reduced motion
    ========================================================================== */
 
